@@ -1,10 +1,23 @@
-import React from "react";
-import { Home } from "./src/screens/Home/";
+// App.js
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function App() {
+
+import Cadastro from './src/screens/Cadastro';
+import Login from './src/screens/Login';
+
+const Stack = createStackNavigator()
+
+const App = () => {
   return (
-    <>
-     <Home/>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Cadastro">
+        <Stack.Screen name="Cadastro" component={Cadastro} />
+        <Stack.Screen name="Login" component={Login} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
+
+export default App;

@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 
-//import Ionicons from 'react-native-vector-icons/Ionicons'
-
-
-
-export function Home() {
+export default function Cadastro({ navigation }) {
   return (
     <View style={styles.container}>
         <Image
@@ -27,11 +23,14 @@ export function Home() {
         <Text style={styles.buttonText}>Acessar</Text>
       </TouchableOpacity>
 
-      <Text style={styles.textoHookCad}>
-        Você não tem conta?{' '}
-        <Text style={styles.linkText}>Cadastre-se</Text>
-      </Text>
+      <TouchableOpacity onPress={ () => navigation.navigate("Login")}>
+        <Text style={styles.textoHookCad}>
+          Voê não tem conta?{' '}<Text style={styles.linkText}>Cadastre-se</Text>
+        </Text>
+      </TouchableOpacity>
+
+      
 
     </View>
-  );
-}
+  )
+};
