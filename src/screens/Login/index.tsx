@@ -15,7 +15,7 @@ export function Login({ navigation }) {
       />
       <TextInput
         style={styles.input}
-        placeholder="Digite aqui"
+        placeholder="Seu email..."
       />
       <TextInput
         style={styles.input}
