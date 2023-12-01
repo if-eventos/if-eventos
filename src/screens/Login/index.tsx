@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 
+import { useNavigation } from '@react-navigation/native';
+
 //import Ionicons from 'react-native-vector-icons/Ionicons'
 
 
 
-export function Login({ navigation }) {
+export function Login() {
+
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
         <Image

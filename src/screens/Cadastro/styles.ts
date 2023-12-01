@@ -14,11 +14,13 @@ export const styles = StyleSheet.create({
     fontSize: 32,
     fontStyle: 'italic'
   },
+  imageView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   imagem:{
-    alignContent: 'center',
-    width: '100%',
-    height: '50%',
-    marginTop: 50
+    width: 200,
+    height: 200,
   },
   input:{
     width: '90%',
