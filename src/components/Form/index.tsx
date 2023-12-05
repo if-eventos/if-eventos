@@ -11,7 +11,9 @@ import { ErrorMessage } from '../ErrorMessage';
 import { styles } from './styles';
 import { useState } from 'react';
 
-export function Form() {
+import api from '../../services/api';
+
+export function Form({ navigation }:any) {
     const { control, handleSubmit, formState: { errors }, setValue } = useForm<IRegisterUser>({
         resolver: zodResolver(schemaZod)// aqui os dados são validados
     });
@@ -31,18 +33,33 @@ export function Form() {
 
 
 
-    function handleUserRegister(data: IRegisterUser) {
-        console.log(data)
+    async function handleUserRegister(data: IRegisterUser) {
 
-        Alert.alert(
-            'cadastro realizado com sucesso',
-            `(${data.name})`,
-            [
-                { text: 'ok', }
-            ]
-        );
+        const config = {     
+            headers: { 'content-type': 'multipart/form-data' }
+        }
+
+        try {
+            if (!data) {
+                console.error("Dados inválidos fornecidos");
+                return;
+            }
+    
+            const response = await api.post('/api/v1/user/signup', data, config);
+    
+            if (response.status === 201) {
+                navigation.navigate('Login');
+                console.log("Usuário criado com sucesso");
+            } else {
+                console.error("Erro ao criar o usuário: ", response.status);
+            }
+        } catch(err) {
+            console.error("Não foi possível criar o usuário", err);
+        }
     }
 
+
+    
     return (
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

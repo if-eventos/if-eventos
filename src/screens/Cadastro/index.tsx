@@ -23,7 +23,7 @@ export default function Cadastro() {
           </View>
 
 
-          <Form />
+          <Form navigation={navigation} />
         </ScrollView>
 
       </View>
