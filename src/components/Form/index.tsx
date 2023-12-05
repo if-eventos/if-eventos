@@ -1,6 +1,9 @@
 import { Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, View, TouchableOpacity, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import { schemaZod, IRegisterUser } from "../../utils/ValidationSchemaZod";
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
@@ -18,10 +21,10 @@ export function Form() {
 
     function handlePalestranteConfirm() {
         setButtonPalestranteConfirm(!buttonPalestranteConfirm);
-        if(buttonPalestranteConfirm){
-            ehPalestrante=1;
-        }else{
-            ehPalestrante=0;
+        if (buttonPalestranteConfirm) {
+            ehPalestrante = 1;
+        } else {
+            ehPalestrante = 0;
         }
     }
 
@@ -39,7 +42,7 @@ export function Form() {
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <KeyboardAvoidingView behavior="position" enabled>
                     <Controller
@@ -158,26 +161,34 @@ export function Form() {
                     <View style={styles.ContainerEhPalestrante}>
                         <Text style={styles.TextPalestrante}>Sou Palestrante</Text>
 
-                            <TouchableOpacity
-                                style={buttonPalestranteConfirm ?{backgroundColor:'#23355C'} : styles.buttonPalestrante}
-                                onPress={() =>handlePalestranteConfirm()}
-                            >
-                                <Text style={buttonPalestranteConfirm? {} : styles.buttonTextPalestrante}>Sim</Text>
-                            </TouchableOpacity>
-
+                        <TouchableOpacity
+                            //style={buttonPalestranteConfirm ? styles.buttonPalestranteNao : styles.buttonPalestranteSim}
+                            onPress={() => handlePalestranteConfirm()}
+                        >
+                            {
+                                buttonPalestranteConfirm
+                                    ?
+                                    <AntDesign name="checksquare" size={50} color="green" />
+                                    :
+                                    //<FontAwesome name="square-o" size={55} color="black" />
+                                    <Ionicons name="md-square-outline" size={48} color="black" />
+                            }
+                        </TouchableOpacity>
                     </View>
 
 
 
+                    <View style={styles.ContainerCriar}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleSubmit(handleUserRegister)}
+                        >
+                            <Text style={styles.buttonText}>Criar</Text>
+                        </TouchableOpacity>
+                    </View>
 
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleSubmit(handleUserRegister)}
-                    >
-                        <Text style={styles.buttonText}>Acessar</Text>
-                    </TouchableOpacity>
                 </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
-        </ScrollView>
+        </View>
     )
 }

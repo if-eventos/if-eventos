@@ -12,19 +12,20 @@ export default function Cadastro() {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
 
-    <View style={styles.imageView}>
-      <Image
-        source={require('../../images/IF.png')}
-        style={styles.imagem}
-      />
-    </View>
+          <View style={styles.imageView}>
+            <Image
+              source={require('../../images/IF.png')}
+              style={styles.imagem}
+            />
+          </View>
 
-       
-      <Form />
-      
 
-    </View>
+          <Form />
+        </ScrollView>
+
+      </View>
   )
 };

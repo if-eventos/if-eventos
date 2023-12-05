@@ -5,6 +5,9 @@ export const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 24,
         backgroundColor: '#fffff',
+        paddingBottom: 100,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     title: {
         color: '#333',
@@ -20,7 +23,7 @@ export const styles = StyleSheet.create({
         marginTop: 50
     },
     input: {
-        width: '90%',
+        width: 290,
         height: 60,
         fontFamily: 'Roboto',
         padding: 10,
@@ -37,7 +40,6 @@ export const styles = StyleSheet.create({
         width: 242,
         height: 53,
         justifyContent: 'center',
-        marginLeft: 65,
         marginTop: 5,
         borderRadius: 10,
     },
@@ -64,17 +66,13 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 40,
     },
+    ContainerCriar: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     TextPalestrante: {
         color: 'black',
         fontWeight: 'bold'
-    },
-    buttonPalestrante: {
-        backgroundColor: '#D4DCFF',
-        width: 50,
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 8
     },
     buttonTextPalestrante: {
         color: 'black',
