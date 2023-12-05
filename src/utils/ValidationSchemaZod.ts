@@ -3,9 +3,11 @@ export const schemaZod = z.object({
   name: z.string()
         .min(3,'nome deve ter no minimo 3 caracteres'),
   email: z.string().trim()
-        .email("E-mail inválido"),
+        .email("E-mail inválido")
+        .refine((value)=> value.length !== 0,{message:'error:campo vazio'}),
   password:z.string().trim()
-          .min(8, 'A senha deve ter ao menos 8 dígitos'),
+          .min(8, 'A senha deve ter ao menos 8 dígitos')
+          .refine((value)=> value.length !== 0,{message:'error:campo vazio'}),
  // passwordConfirm: z.string().trim()
  //       .refine((value)=> value.length !== 0,{message:'error:campo vazio'}),
   telefone: z.string().trim().

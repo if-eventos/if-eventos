@@ -12,7 +12,7 @@ import { styles } from './styles';
 import { useState } from 'react';
 
 export function Form() {
-    const { control, handleSubmit, formState: { errors } } = useForm<IRegisterUser>({
+    const { control, handleSubmit, formState: { errors }, setValue } = useForm<IRegisterUser>({
         resolver: zodResolver(schemaZod)// aqui os dados são validados
     });
 
@@ -20,17 +20,19 @@ export function Form() {
     const [buttonPalestranteConfirm, setButtonPalestranteConfirm] = useState(false);
 
     function handlePalestranteConfirm() {
-        setButtonPalestranteConfirm(!buttonPalestranteConfirm);
-        if (buttonPalestranteConfirm) {
-            ehPalestrante = 1;
+        const ButtonState = !buttonPalestranteConfirm
+        setButtonPalestranteConfirm(ButtonState);
+        if (ButtonState) {
+            setValue('ehPalestrante', 1);
         } else {
-            ehPalestrante = 0;
+            setValue('ehPalestrante', 0);
         }
     }
 
 
 
     function handleUserRegister(data: IRegisterUser) {
+        console.log(data)
 
         Alert.alert(
             'cadastro realizado com sucesso',
@@ -105,7 +107,6 @@ export function Form() {
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder="Informe o telefone"
-                                secureTextEntry
                                 style={styles.input}
                             />
                         )}
@@ -122,7 +123,6 @@ export function Form() {
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder="Informe o minicurriculo"
-                                secureTextEntry
                                 style={styles.input}
                             />
                         )}
@@ -137,7 +137,6 @@ export function Form() {
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder="Informe o urlsite"
-                                secureTextEntry
                                 style={styles.input}
                             />
                         )}
@@ -152,29 +151,40 @@ export function Form() {
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder="Informe o curriculo_redesocial"
-                                secureTextEntry
                                 style={styles.input}
                             />
                         )}
                     />
 
+
                     <View style={styles.ContainerEhPalestrante}>
                         <Text style={styles.TextPalestrante}>Sou Palestrante</Text>
+                        <Controller
+                            name="ehPalestrante"
+                            control={control}
+                            defaultValue={0}
+                            render={({ field: { onChange, value } }) => (
+                                <TouchableOpacity
+                                    //style={buttonPalestranteConfirm ? styles.buttonPalestranteNao : styles.buttonPalestranteSim}
+                                    onPress={() => handlePalestranteConfirm()}
+                                    
+                                >
+                                    {
+                                        buttonPalestranteConfirm
+                                            ?
+                                            <AntDesign name="checksquare" size={50} color="green" />
+                                            :
+                                            //<FontAwesome name="square-o" size={55} color="black" />
+                                            <Ionicons name="md-square-outline" size={48} color="black" />
+                                    }
+                                </TouchableOpacity>
+                            )}
+                        />
 
-                        <TouchableOpacity
-                            //style={buttonPalestranteConfirm ? styles.buttonPalestranteNao : styles.buttonPalestranteSim}
-                            onPress={() => handlePalestranteConfirm()}
-                        >
-                            {
-                                buttonPalestranteConfirm
-                                    ?
-                                    <AntDesign name="checksquare" size={50} color="green" />
-                                    :
-                                    //<FontAwesome name="square-o" size={55} color="black" />
-                                    <Ionicons name="md-square-outline" size={48} color="black" />
-                            }
-                        </TouchableOpacity>
                     </View>
+
+
+
 
 
 
