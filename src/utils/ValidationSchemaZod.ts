@@ -11,7 +11,7 @@ export const schemaZod = z.object({
  // passwordConfirm: z.string().trim()
  //       .refine((value)=> value.length !== 0,{message:'error:campo vazio'}),
   telefone: z.string().trim().
-          min(9,'nome deve ter no minimo 8 caracteres'),
+          min(9,'telefone deve ter no minimo 9 caracteres'),
   minicurriculo: z.string().optional(),
   urlsite: z.string().optional(),
   curriculo_redesocial: z.string().optional(),

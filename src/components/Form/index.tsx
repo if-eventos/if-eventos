@@ -2,7 +2,6 @@ import { Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, View, 
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
 import { schemaZod, IRegisterUser } from "../../utils/ValidationSchemaZod";
@@ -13,7 +12,7 @@ import { useState } from 'react';
 
 import api from '../../services/api';
 
-export function Form({ navigation }:any) {
+export function Form({ navigation }: any) {
     const { control, handleSubmit, formState: { errors }, setValue } = useForm<IRegisterUser>({
         resolver: zodResolver(schemaZod)// aqui os dados são validados
     });
@@ -32,10 +31,10 @@ export function Form({ navigation }:any) {
     }
 
 
-
+    const [errorCriarNovoUsuario, setErrorCriarNovoUsuario] = useState(false);
     async function handleUserRegister(data: IRegisterUser) {
 
-        const config = {     
+        const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
 
@@ -44,32 +43,41 @@ export function Form({ navigation }:any) {
                 console.error("Dados inválidos fornecidos");
                 return;
             }
-    
+
             const response = await api.post('/api/v1/user/signup', data, config);
-    
+
             if (response.status === 201) {
-                navigation.navigate('Login');
+                setErrorCriarNovoUsuario(false);
+                navigation.navigate('Login', { email: data.email});
                 console.log("Usuário criado com sucesso");
+                return;
             } else {
-                console.error("Erro ao criar o usuário: ", response.status);
+                setErrorCriarNovoUsuario(true);
+                console.log("Não foi possível criar o usuário");
+                return;
             }
-        } catch(err) {
-            console.error("Não foi possível criar o usuário", err);
+        } catch (err) {
+            setErrorCriarNovoUsuario(true);
+            console.log("Não foi possível criar o usuário", err);
         }
     }
 
 
-    
+
     return (
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <KeyboardAvoidingView behavior="position" enabled>
+
+                    {
+                        !!errors.name && <ErrorMessage description={errors.name.message} />
+                    }
                     <Controller
                         name='name'
                         control={control}
                         render={({ field }) => (
                             <TextInput
-                                placeholder="Nome"
+                                placeholder="Nome *"
                                 onBlur={field.onBlur}
                                 onChangeText={field.onChange}
                                 value={field.value}
@@ -77,10 +85,13 @@ export function Form({ navigation }:any) {
                             />
                         )}
                     />
-                    {
-                        !!errors.name && <ErrorMessage description={errors.name.message} />
-                    }
 
+                    {
+                        errorCriarNovoUsuario ? <ErrorMessage description={"Email indisponível"} /> : <></>
+                    }
+                    {
+                        !!errors.email && <ErrorMessage description={errors.email.message} />
+                    }
                     <Controller
                         name="email"
                         control={control}
@@ -88,17 +99,17 @@ export function Form({ navigation }:any) {
                             <TextInput
                                 onChangeText={onChange}
                                 value={value}
-                                placeholder="Email"
+                                placeholder="Email *"
                                 keyboardType="email-address"
                                 autoCapitalize='none'
                                 style={styles.input}
                             />
                         )}
                     />
-                    {
-                        !!errors.email && <ErrorMessage description={errors.email.message} />
-                    }
 
+                    {
+                        !!errors.password && <ErrorMessage description={errors.password.message} />
+                    }
                     <Controller
                         name="password"
                         control={control}
@@ -106,16 +117,16 @@ export function Form({ navigation }:any) {
                             <TextInput
                                 onChangeText={onChange}
                                 value={value}
-                                placeholder="Senha"
+                                placeholder="Senha *"
                                 secureTextEntry
                                 style={styles.input}
                             />
                         )}
                     />
-                    {
-                        !!errors.password && <ErrorMessage description={errors.password.message} />
-                    }
 
+                    {
+                        !!errors.telefone && <ErrorMessage description={errors.telefone.message} />
+                    }
                     <Controller
                         name="telefone"
                         control={control}
@@ -123,14 +134,11 @@ export function Form({ navigation }:any) {
                             <TextInput
                                 onChangeText={onChange}
                                 value={value}
-                                placeholder="Informe o telefone"
+                                placeholder="Informe o telefone *"
                                 style={styles.input}
                             />
                         )}
                     />
-                    {
-                        !!errors.telefone && <ErrorMessage description={errors.telefone.message} />
-                    }
 
                     <Controller
                         name="minicurriculo"
@@ -184,7 +192,7 @@ export function Form({ navigation }:any) {
                                 <TouchableOpacity
                                     //style={buttonPalestranteConfirm ? styles.buttonPalestranteNao : styles.buttonPalestranteSim}
                                     onPress={() => handlePalestranteConfirm()}
-                                    
+
                                 >
                                     {
                                         buttonPalestranteConfirm
@@ -216,6 +224,12 @@ export function Form({ navigation }:any) {
 
                 </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
+
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Text style={styles.textoHookCad}>
+                    Você já possui uma conta?{' '}<Text style={styles.linkText}>Sign-in</Text>
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }
