@@ -3,6 +3,8 @@ import { View, Text, TextInput, Alert, ScrollView, Image, TouchableOpacity } fro
 import { styles } from './styles';
 
 import { useNavigation } from '@react-navigation/native';
+import api from '../../services/api';
+import { ErrorMessage } from '../../components/ErrorMessage';
 
 //import Ionicons from 'react-native-vector-icons/Ionicons'
 
@@ -22,8 +24,44 @@ export function Login({ route }: Props) {
       return "";
     }
   });
+  const [passwordUser, setPasswordUser] = useState<string>("");
+  const [errorAutenticarNovoUsuario, setErrorAutenticarNovoUsuario] = useState(false);
 
- 
+
+
+  async function handleUserAuthentication() {
+
+    try {
+      if (!emailUser || !passwordUser) {
+        setErrorAutenticarNovoUsuario(true)
+        console.error("Dados inválidos fornecidos");
+        return;
+      }
+
+      const data = { email: emailUser, password: passwordUser };
+
+      const response = await api.post('/api/v1/user/signin', data);
+
+      if (response.status === 200) {
+        setErrorAutenticarNovoUsuario(false);
+        navigation.navigate('Cadastro');  //colocar alguma outra tela
+        console.log("Usuário autenticado com sucesso");
+        return;
+      } else {
+        setErrorAutenticarNovoUsuario(true)
+        console.log("Não foi possível autenticar o usuário");
+        return;
+      }
+    } catch (err) {
+      setErrorAutenticarNovoUsuario(true)
+      console.log("Algum erro aconteceu ao autenticar o usuário", err);
+    }
+  }
+
+
+
+
+
   return (
     <View style={styles.container}>
       <Image
@@ -31,10 +69,14 @@ export function Login({ route }: Props) {
         style={styles.imagem}
       />
 
+      {
+        errorAutenticarNovoUsuario ? <ErrorMessage description={"Falha ao autenticar"} /> : <></>
+      }
       <TextInput
         style={styles.input}
         placeholder="Seu email..."
         value={emailUser}
+        keyboardType="email-address"
         onChangeText={(c) => {
           setEmailUser(c)
         }}
@@ -44,9 +86,17 @@ export function Login({ route }: Props) {
       <TextInput
         style={styles.input}
         placeholder="*********"
+        value={passwordUser}
+        onChangeText={(c) => {
+          setPasswordUser(c)
+        }}
+        secureTextEntry
       />
+
+
       <TouchableOpacity
         style={styles.button}
+        onPress={handleUserAuthentication}
       >
         <Text style={styles.buttonText}>Acessar</Text>
       </TouchableOpacity>
