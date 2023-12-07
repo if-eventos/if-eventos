@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import api from '../../services/api';
 import { ErrorMessage } from '../../components/ErrorMessage';
 
-//import Ionicons from 'react-native-vector-icons/Ionicons'
 
 type Props = {
   route?: { params?: { email?: string } };
@@ -44,7 +43,7 @@ export function Login({ route }: Props) {
 
       if (response.status === 200) {
         setErrorAutenticarNovoUsuario(false);
-        navigation.navigate('Cadastro');  //colocar alguma outra tela
+        navigation.navigate('Cadastro'); 
         console.log("Usuário autenticado com sucesso");
         return;
       } else {

@@ -14,7 +14,7 @@ import api from '../../services/api';
 
 export function Form({ navigation }: any) {
     const { control, handleSubmit, formState: { errors }, setValue } = useForm<IRegisterUser>({
-        resolver: zodResolver(schemaZod)// aqui os dados são validados
+        resolver: zodResolver(schemaZod)
     });
 
     let ehPalestrante = 0;
@@ -190,7 +190,6 @@ export function Form({ navigation }: any) {
                             defaultValue={0}
                             render={({ field: { onChange, value } }) => (
                                 <TouchableOpacity
-                                    //style={buttonPalestranteConfirm ? styles.buttonPalestranteNao : styles.buttonPalestranteSim}
                                     onPress={() => handlePalestranteConfirm()}
 
                                 >
@@ -199,7 +198,6 @@ export function Form({ navigation }: any) {
                                             ?
                                             <AntDesign name="checksquare" size={50} color="green" />
                                             :
-                                            //<FontAwesome name="square-o" size={55} color="black" />
                                             <Ionicons name="md-square-outline" size={48} color="black" />
                                     }
                                 </TouchableOpacity>
