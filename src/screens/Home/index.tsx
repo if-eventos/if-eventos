@@ -39,7 +39,7 @@ const ListaHorizontalEventos = () => {
     { key: '3', nome: 'Educare - Congresso de Lingua Portuguesa', data: 'sexta-feira 12/10/2024', image: require('./educare.png') },
     { key: '4', nome: 'Saúde é da nossa conta', data: 'quarta-feira 02/03/2024', image: require('./saude.png') },
     { key: '5', nome: 'IV sertão comp - Cajazeiras-PB', data: 'quinta-feira 10/08/2024', image: require('./IF.png') },
-    { key: '6', nome: 'Semana da educação e docência', data: 'terça-feira 02/09/2024', image: require('./educ.png') },
+    { key: '6', nome: 'Semana da educação e docência', data: 'terça-feira 02/05/2024', image: require('./educ.png') },
   ];
   
   const renderItemEvento = ({ item }) => (
