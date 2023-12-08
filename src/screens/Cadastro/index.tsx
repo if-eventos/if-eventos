@@ -13,16 +13,15 @@ export default function Cadastro() {
 
   return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
-
-          <View style={styles.imageView}>
+        
+        <View style={styles.imageView}>
             <Image
               source={require('../../images/IF.png')}
               style={styles.imagem}
             />
           </View>
 
-
+        <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
           <Form navigation={navigation} />
         </ScrollView>
 
