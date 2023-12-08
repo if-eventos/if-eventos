@@ -3,6 +3,8 @@ import { View, Text, FlatList, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { styles } from './styles';
 
+import { Footer } from '../../components/Footer';
+
 const ListaHorizontalIcons = () => {
   const data = [
     { key: '1', label: 'Educação', iconName: 'graduation-cap' },
@@ -83,6 +85,8 @@ export default function Home() {
         <ListaHorizontalEventos />
       </View>
 
+
+      <Footer />
     </View>
   );
 };
