@@ -6,11 +6,45 @@ import { ErrorMessage } from '../ErrorMessage';
 import { Controller, useForm } from 'react-hook-form';
 
 import { styles } from './styles';
+import api from '../../services/api';
+import { useNavigation } from '@react-navigation/native';
 
 export function FormCriarEvento() {
+
+
+    const navigation = useNavigation();
+
+
     const { control, handleSubmit, formState: { errors }, setValue } = useForm<IRegisterEvent>({
         resolver: zodResolver(schemaZodEvento)
     });
+
+
+    async function handleEventRegister(data: IRegisterEvent) {
+        const config = {
+            headers: { 'content-type': 'multipart/form-data' }
+        }
+        console.log(data)
+        try {
+            if (!data) {
+                console.error("Dados inválidos fornecidos");
+                return;
+            }
+
+            const response = await api.post('/api/v1/evento/criar', data, config);
+
+            if (response.status === 200) {
+                navigation.navigate('Login');
+                console.log("Evento criado com sucesso");
+                return;
+            } else {
+                console.log("Não foi possível criar o evento");
+                return;
+            }
+        } catch (err) {
+            console.log("Não foi possível criar o evento", err);
+        }
+    }
 
 
     return (
@@ -71,10 +105,11 @@ export function FormCriarEvento() {
                             )}
                         />
 
-                        {
+                        {/* {
                             !!errors.site && <ErrorMessage description={errors.site.message} />
-                        }
-                        <Controller
+                        } */}
+                        
+                        {/* <Controller
                             name='site'
                             control={control}
                             render={({ field }) => (
@@ -86,7 +121,7 @@ export function FormCriarEvento() {
                                     style={styles.input}
                                 />
                             )}
-                        />
+                        /> */}
 
                         {
                             !!errors.urlsiteoficial && <ErrorMessage description={errors.urlsiteoficial.message} />
@@ -109,7 +144,7 @@ export function FormCriarEvento() {
                         <View style={styles.ContainerCriar}>
                             <TouchableOpacity
                                 style={styles.button}
-                            //onPress={handleSubmit(handleEventRegister)}  -- Implementar depois
+                                onPress={handleSubmit(handleEventRegister)}
                             >
                                 <Text style={styles.buttonText}>Finalizar</Text>
                             </TouchableOpacity>

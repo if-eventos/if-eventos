@@ -5,7 +5,7 @@ import { styles } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import api from '../../services/api';
 import { ErrorMessage } from '../../components/ErrorMessage';
-
+import { useAuth } from '../../hooks/useAuth';
 
 type Props = {
   route?: { params?: { email?: string } };
@@ -15,6 +15,7 @@ type Props = {
 export function Login({ route }: Props) {
 
   const navigation = useNavigation();
+  const { logar } = useAuth();
 
   const [emailUser, setEmailUser] = useState<string>(() => {
     if (route && route.params && route.params.email) {
@@ -38,19 +39,14 @@ export function Login({ route }: Props) {
       }
 
       const data = { email: emailUser, password: passwordUser };
+      console.log(data);
+      await logar(data.email, data.password);
 
-      const response = await api.post('/api/v1/user/signin', data);
 
-      if (response.status === 200) {
-        setErrorAutenticarNovoUsuario(false);
-        navigation.navigate('Cadastro'); 
-        console.log("Usuário autenticado com sucesso");
-        return;
-      } else {
-        setErrorAutenticarNovoUsuario(true)
-        console.log("Não foi possível autenticar o usuário");
-        return;
-      }
+      //navigation.navigate('CriarEvento');
+      console.log("Usuário autenticado com sucesso");
+      return;
+
     } catch (err) {
       setErrorAutenticarNovoUsuario(true)
       console.log("Algum erro aconteceu ao autenticar o usuário", err);
@@ -84,7 +80,7 @@ export function Login({ route }: Props) {
 
       <TextInput
         style={styles.input}
-        placeholder="*********"
+        placeholder="Senha"
         value={passwordUser}
         onChangeText={(c) => {
           setPasswordUser(c)
