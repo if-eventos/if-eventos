@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
 import { schemaZod, IRegisterUser } from "../../utils/ValidationSchemaZod";
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import { ScrollView, TextInput, Image } from 'react-native';
 import { ErrorMessage } from '../ErrorMessage';
 import { styles } from './styles';
 import { useState } from 'react';
@@ -48,7 +48,7 @@ export function Form({ navigation }: any) {
 
             if (response.status === 201) {
                 setErrorCriarNovoUsuario(false);
-                navigation.navigate('Login', { email: data.email});
+                navigation.navigate('Login', { email: data.email });
                 console.log("Usuário criado com sucesso");
                 return;
             } else {

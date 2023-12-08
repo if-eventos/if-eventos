@@ -7,24 +7,24 @@ import { useNavigation } from '@react-navigation/native';
 import { Form } from '../../components/Form';
 
 
-export default function Cadastro() {
+export function Cadastro() {
 
   const navigation = useNavigation();
 
   return (
-      <View style={styles.container}>
-        
+    <View style={styles.container}>
+
+      <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
         <View style={styles.imageView}>
-            <Image
-              source={require('../../images/IF.png')}
-              style={styles.imagem}
-            />
-          </View>
+          <Image
+            source={require('../../images/IF.png')}
+            style={styles.imagem}
+          />
+        </View>
 
-        <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
-          <Form navigation={navigation} />
-        </ScrollView>
+        <Form navigation={navigation} />
+      </ScrollView>
 
-      </View>
+    </View>
   )
 };
