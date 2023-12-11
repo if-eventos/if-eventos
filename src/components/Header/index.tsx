@@ -4,8 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 
 import { styles } from "./styles";
 
-import { useAuth } from "../../hooks/useAuth";
-
 type Props = {
     pageName: string
     descricao: string
@@ -15,7 +13,6 @@ type Props = {
 export function Header({ pageName, descricao }: Props) {
 
     const navigation = useNavigation();
-    const {deslogar} = useAuth();
 
     const voltarPagina = () => {
         navigation.goBack();
@@ -31,9 +28,6 @@ export function Header({ pageName, descricao }: Props) {
                 <Text style={styles.pageName}>{pageName}</Text>
                 <Text style={styles.descricao}>{descricao}</Text>
             </View>
-            <TouchableOpacity onPress={deslogar}>
-                <AntDesign name="arrowleft" size={24} color="black" />
-            </TouchableOpacity>
         </View>
     )
 }

@@ -25,7 +25,7 @@ export function Footer() {
             <TouchableOpacity onPress={() => navigation.navigate("CriarEvento")}>
                 <Feather name="plus-square" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Perfil")}>
                 <Ionicons name="person-outline" size={24} color="black" />
             </TouchableOpacity>
         </View>

@@ -5,6 +5,8 @@ export declare global {
       Cadastro: undefined;
       CriarEvento: undefined;
       Home: undefined;
+      Perfil: undefined;
+      EditPerfil: undefined;
     }
   }
 }
