@@ -42,9 +42,8 @@ export function Login({ route }: Props) {
       console.log(data);
       await logar(data.email, data.password);
 
-
-      //navigation.navigate('CriarEvento');
       console.log("Usuário autenticado com sucesso");
+      navigation.navigate('Home');
       return;
 
     } catch (err) {
