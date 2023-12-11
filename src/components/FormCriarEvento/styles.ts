@@ -55,18 +55,18 @@ export const styles = StyleSheet.create({
         marginTop: 40
     },
     ProfilePhoto:{
-        width: '100%',
+        marginLeft: 12,
         alignItems: 'center',
         justifyContent: 'center'
     },
     profile: {
-        width: 90,
-        height: 90,
-        borderRadius: 90,
+        width: 260,
+        height: 150,
         borderWidth: 2,
         borderColor: '#1A1919',
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: "hidden"
+        overflow: "hidden",
+        backgroundColor: '#9fb1ff'
     }
 })

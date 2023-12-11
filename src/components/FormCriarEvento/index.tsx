@@ -38,6 +38,7 @@ export function FormCriarEvento() {
           // permite ao usuario editar a imagem (crop), antes de subir o app
           allowsEditing: true,
           quality: 1,
+          aspect: [5, 3],
           //quero apensas imagems e não vídeo tb
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
         });
@@ -56,7 +57,6 @@ export function FormCriarEvento() {
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
-        console.log(data)
 
         try {
             const dataForm = new FormData();
@@ -73,6 +73,8 @@ export function FormCriarEvento() {
                             uri: imagePath,
                   } as any);
             }
+
+            console.log(dataForm);
 
             const response = await api.post('/api/v1/evento/criar', dataForm, config);
 
@@ -104,9 +106,9 @@ export function FormCriarEvento() {
                             >
                                 {
                                     imagePath ?
-                                        <Image source={{uri: imagePath, width: 100, height: 100}} />
+                                        <Image source={{uri: imagePath, width: 270, height: 150}} />
                                     :
-                                        <AntDesign name="user" size={80} color="black" />
+                                        <AntDesign name="pluscircleo" size={80} color="black" />
                                 }
                             </TouchableOpacity>
                         </View>

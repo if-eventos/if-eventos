@@ -15,7 +15,6 @@ export default function CriarEvento() {
                 <FormCriarEvento />
 
             </ScrollView>
-            <Footer />
         </View>
     )
 }
