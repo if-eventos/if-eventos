@@ -1,6 +1,7 @@
 import { Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, View, TouchableOpacity, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -17,7 +18,7 @@ export function Form({ navigation }: any) {
         resolver: zodResolver(schemaZod)
     });
 
-    let ehPalestrante = 0;
+    
     const [buttonPalestranteConfirm, setButtonPalestranteConfirm] = useState(false);
 
     function handlePalestranteConfirm() {
@@ -29,6 +30,37 @@ export function Form({ navigation }: any) {
             setValue('ehPalestrante', 0);
         }
     }
+
+
+
+    //handle image:
+    const [imagePath, setImagePath] = useState<string>();
+    async function handleSelectImage() {
+        // tenho acesso a galeria de fotos e não a câmera
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        /* console.log(status); */
+        if (status !== 'granted') {// granted é quando o usuário deu permissão
+            alert('Eita, precisamos de acesso às suas fotos...');
+            return;
+        }
+        let result = await ImagePicker.launchImageLibraryAsync({
+            // permite ao usuario editar a imagem (crop), antes de subir o app
+            allowsEditing: true,
+            quality: 1,
+            aspect: [3, 3],
+            //quero apensas imagems e não vídeo tb
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        });
+        /* console.log(result); */
+        if (!result.canceled) { // se cancelou o upload da imagem
+            // questão do conceito de imutabilidade. sempre que uma imagem for adicionado, 
+            //temos que copiar as imagens que tinha antes no array. 
+            //se não vai apagar na próxima renderização. pois começa sempre do zero
+            setImagePath(result.assets[0].uri);
+            console.log(imagePath);
+        }
+    }
+
 
 
     const [errorCriarNovoUsuario, setErrorCriarNovoUsuario] = useState(false);
@@ -44,7 +76,33 @@ export function Form({ navigation }: any) {
                 return;
             }
 
-            const response = await api.post('/api/v1/user/signup', data, config);
+            const dataForm = new FormData();
+
+            dataForm.append('name', data.name);
+            dataForm.append('email', data.email);
+            dataForm.append('password', data.password);
+            dataForm.append('telefone', data.telefone);
+            dataForm.append('ehPalestrante', `${data.ehPalestrante}`);
+
+            if (data.minicurriculo) {
+                dataForm.append('minicurriculo', data.minicurriculo);
+            }
+            if (data.urlsite) {
+                dataForm.append('telefone', data.urlsite);
+            }
+            if (data.curriculo_redesocial) {
+                dataForm.append('telefone', data.curriculo_redesocial);
+            }
+            if (imagePath) {
+                dataForm.append('image', {
+                    name: `imagehash.jpg`,
+                    type: 'image/jpg',
+                    uri: imagePath,
+                } as any);
+            }
+
+            console.log(dataForm);
+            const response = await api.post('/api/v1/user/signup', dataForm, config);
 
             if (response.status === 201) {
                 setErrorCriarNovoUsuario(false);
@@ -68,6 +126,22 @@ export function Form({ navigation }: any) {
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <KeyboardAvoidingView behavior="position" enabled>
+
+
+                    <View style={styles.ProfilePhoto}>
+                        <TouchableOpacity
+                            style={styles.profile}
+                            onPress={handleSelectImage}
+                        >
+                            {
+                                imagePath ?
+                                    <Image source={{ uri: imagePath, width: 90, height: 90 }} />
+                                    :
+                                    <AntDesign name="plus" size={80} color="black" />
+                            }
+                        </TouchableOpacity>
+                    </View>
+
 
                     {
                         !!errors.name && <ErrorMessage description={errors.name.message} />

@@ -77,5 +77,22 @@ export const styles = StyleSheet.create({
     buttonTextPalestrante: {
         color: 'black',
         fontWeight: 'bold'
+    },
+    ProfilePhoto:{
+        marginBottom: 30,
+        marginLeft: 12,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    profile: {
+        width: 90,
+        height: 90,
+        borderRadius: 90,
+        borderWidth: 2,
+        borderColor: '#1A1919',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: "hidden",
+        backgroundColor: '#9fb1ff'
     }
 })

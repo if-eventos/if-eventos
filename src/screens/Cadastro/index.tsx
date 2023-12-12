@@ -5,6 +5,7 @@ import { styles } from './styles';
 
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '../../components/Form';
+import { Header } from '../../components/Header';
 
 
 export function Cadastro() {
