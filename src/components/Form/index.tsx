@@ -88,10 +88,10 @@ export function Form({ navigation }: any) {
                 dataForm.append('minicurriculo', data.minicurriculo);
             }
             if (data.urlsite) {
-                dataForm.append('telefone', data.urlsite);
+                dataForm.append('urlsite', data.urlsite);
             }
             if (data.curriculo_redesocial) {
-                dataForm.append('telefone', data.curriculo_redesocial);
+                dataForm.append('curriculo_redesocial', data.curriculo_redesocial);
             }
             if (imagePath) {
                 dataForm.append('image', {
