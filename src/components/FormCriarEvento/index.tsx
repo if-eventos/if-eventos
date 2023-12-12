@@ -13,6 +13,8 @@ import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 
+import { SelectionMenuEventoTipo } from '../SelectionMenuEventoTipo';
+
 export function FormCriarEvento() {
 
 
@@ -92,6 +94,19 @@ export function FormCriarEvento() {
     }
 
 
+    /* const [selected, setSelected] = useState("");
+    
+    const data = [
+        { label: "Educaçao", value: "educacao" },
+        { label: "Saúde", value: "saude" },
+        { label: "Medicina", value: "medicina" },
+        { label: "Direito", value: "direito" },
+        { label: "Programação", value: "programacao" },
+        { label: "Jornalismo", value: "jornalismo" },
+        { label: "Esportes", value: "esportes" },
+    ]; */
+
+
     return (
         <View style={styles.telaCriarEvento}>
             <Text style={styles.titulo}>Criar novo evento</Text>
@@ -167,23 +182,6 @@ export function FormCriarEvento() {
                             )}
                         />
 
-                        {/* {
-                            !!errors.site && <ErrorMessage description={errors.site.message} />
-                        } */}
-
-                        {/* <Controller
-                            name='site'
-                            control={control}
-                            render={({ field }) => (
-                                <TextInput
-                                    placeholder="Site *"
-                                    onBlur={field.onBlur}
-                                    onChangeText={field.onChange}
-                                    value={field.value}
-                                    style={styles.input}
-                                />
-                            )}
-                        /> */}
 
                         {
                             !!errors.urlsiteoficial && <ErrorMessage description={errors.urlsiteoficial.message} />
@@ -201,6 +199,9 @@ export function FormCriarEvento() {
                                 />
                             )}
                         />
+
+                        {/* Menu Drop down */}
+                        {/* <SelectionMenuEventoTipo data={data} setSelected={setSelected} /> */}
 
 
                         <View style={styles.ContainerCriar}>
