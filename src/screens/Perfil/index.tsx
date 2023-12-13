@@ -6,13 +6,13 @@ import { styles } from "./styles"
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../hooks/useAuth";
+import userInfo from "../../services/userInfo"
 
 
 
 export default function Logout() {
 
-    const {useUserInfo} = useAuth();
-    const usuario = useUserInfo();
+    const usuario = userInfo();
 
     const navigation = useNavigation();
 

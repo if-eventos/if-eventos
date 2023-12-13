@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements';
 import { styles } from './styles';
 
 import { Footer } from '../../components/Footer';
-import { useAuth } from '../../hooks/useAuth';
+import fetchEventos from '../../services/fetchEventos';
 
 interface Icons {
   key: string;
@@ -71,7 +71,6 @@ const ListaEventosEducacao = ({ eventos }: { eventos: Evento[] }) => {
 };
 
 export default function Home (){
-  const { fetchEventos } = useAuth();
   const [eventos, setEventos] = useState<Evento[]>([]);
 
   useEffect(() => {

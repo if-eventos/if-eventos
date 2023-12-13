@@ -7,15 +7,6 @@ interface IContexto {
   idUser: string | null;
   logar: (email: string, password: string) => Promise<void>;
   deslogar: () => Promise<void>;
-  useUserInfo: () => { name: string; email: string };
-  fetchEventos: () => Promise<Evento[]>;
-}
-
-interface Evento {
-  key: string;
-  nome: string;
-  descricao: string;
-  id: number;
 }
 
 export const AuthContext = createContext({} as IContexto);
@@ -74,46 +65,10 @@ export function AuthProviderContext({ children }: IProps) {
 
 
 
-  function useUserInfo() {
-    const [userInfo, setUserInfo] = useState({ name: '', email: '' });
-
-    useEffect(() => {
-      async function loadUserInfo() {
-        try {
-          const tokenStorage = await AsyncStorage.getItem('auth.token');
-          const idStorage = await AsyncStorage.getItem('auth.id');
-
-          if (tokenStorage && idStorage) {
-            api.defaults.headers.common.Authorization = `Bearer ${tokenStorage}`;
-
-            const response = await api.get(`/api/v1/user/${idStorage}`);
-            const { name, email } = response.data.user;
-            setUserInfo({ name, email });
-          }
-        } catch (error) {
-          console.error('Erro ao carregar informações do usuário', error);
-        }
-      }
-
-      loadUserInfo();
-    }, []);
-
-    return userInfo;
-  }
-
-  async function fetchEventos(): Promise<Evento[]> {
-    try {
-      const response = await api.get('/api/v1/evento/todos');
-      return response.data as Evento[];
-    } catch (error) {
-      console.error('Erro ao buscar eventos', error);
-      throw error;
-    }
-  }
   
 
   return (
-    <AuthContext.Provider value={{ tokenState, idUser, logar, deslogar, useUserInfo, fetchEventos }}>
+    <AuthContext.Provider value={{ tokenState, idUser, logar, deslogar }}>
       {children}
     </AuthContext.Provider>
   );
