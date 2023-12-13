@@ -56,6 +56,24 @@ export function AuthProviderContext({ children }: IProps) {
     await AsyncStorage.removeItem('auth.id');
   }
 
+
+
+  useEffect(() => {
+    async function loadStorage(){
+      const tokenStorage= await AsyncStorage.getItem('auth.token');
+      const idStorage= await AsyncStorage.getItem('auth.id');
+      if(tokenStorage && idStorage){
+        api.defaults.headers.common.Authorization = `Bearer ${tokenStorage}`;
+        setTokenState(tokenStorage);
+        setIdUser(idStorage);
+      }
+    }
+    loadStorage();
+  },[]);
+  
+
+
+
   function useUserInfo() {
     const [userInfo, setUserInfo] = useState({ name: '', email: '' });
 
