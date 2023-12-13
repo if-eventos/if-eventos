@@ -9,16 +9,21 @@ import { useAuth } from "../../hooks/useAuth";
 
 
 
-export default function CriarEvento() {
+export default function Logout() {
 
-    const { deslogar } = useAuth();
+    const {useUserInfo} = useAuth();
+    const usuario = useUserInfo();
+
+    const navigation = useNavigation();
+
+
+    const { deslogar} = useAuth();
 
     const handleLogout = () => {
         deslogar();
-        console.log('Logout');
      };
-    const navigation = useNavigation();
 
+    
 
     return (
         <View style={styles.container}>
@@ -30,11 +35,9 @@ export default function CriarEvento() {
                         source={require('./images/IF.png')}
                         style={{ width: 82, height: 80, borderRadius: 80, marginRight: 10, borderWidth: 1, borderColor: 'black' }}
                     />
-                    <View style={{marginTop: 8, marginLeft: 5}}>
-                        <Text style={{ fontWeight: 'bold', width:190 }}>
-                        Thalyson Rian Mendes da Silva
-                        </Text>
-                        <Text style={{ color: 'gray'}}>email@gmail.com</Text>
+                    <View style={{marginTop: 15, marginLeft: 5}}>
+                        <Text style={{ fontWeight: 'bold', width:190 }}>{usuario.name}</Text>
+                        <Text style={{ color: 'gray'}}>{usuario.email}</Text>
                     </View>
 
                 </View>

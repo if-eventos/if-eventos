@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Alert, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
-
 import { useNavigation } from '@react-navigation/native';
-import api from '../../services/api';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { useAuth } from '../../hooks/useAuth';
 

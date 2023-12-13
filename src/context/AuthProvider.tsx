@@ -9,6 +9,7 @@ interface IContexto{
   idUser:string | null;
   logar: (email:string, password:string) => Promise<void>;
   deslogar: ()=> Promise<void>;
+  useUserInfo: () => { name: string; email: string };
 }
 
 export const AuthContext = createContext({}as IContexto);
@@ -51,21 +52,39 @@ export function AuthProviderContext({children}:IProps) {
     await AsyncStorage.removeItem('auth.id');
   }
 
-  useEffect(() => {
-    async function loadStorage(){
-      const tokenStorage= await AsyncStorage.getItem('auth.token');
-      const idStorage= await AsyncStorage.getItem('auth.id');
-      if(tokenStorage && idStorage){
-        api.defaults.headers.common.Authorization = `Bearer ${tokenStorage}`;
-        setTokenState(tokenStorage);
-        setIdUser(idStorage);
+function useUserInfo() {
+    const [userInfo, setUserInfo] = useState({ name: '', email: '' });
+  
+    useEffect(() => {
+      async function loadUserInfo() {
+        try {
+          const tokenStorage = await AsyncStorage.getItem('auth.token');
+          const idStorage = await AsyncStorage.getItem('auth.id');
+  
+          if (tokenStorage && idStorage) {
+            api.defaults.headers.common.Authorization = `Bearer ${tokenStorage}`;
+
+            //Pegar dados do usuário...
+            const response = await api.get(`/api/v1/user/${idStorage}`);
+            const { name, email } = response.data.user;
+            setUserInfo({ name, email });
+
+          }
+        } catch (error) {
+          console.error('Erro ao carregar informações do usuário', error);
+        }
       }
-    }
-    loadStorage();
-  },[]);
+  
+      loadUserInfo();
+    }, []);
+  
+    return userInfo;
+  }
+
+  
 
   return (
-    <AuthContext.Provider value={{tokenState, idUser, logar, deslogar}}>
+    <AuthContext.Provider value={{tokenState, idUser, logar, deslogar, useUserInfo}}>
       {children}
     </AuthContext.Provider>
   )
