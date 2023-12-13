@@ -67,6 +67,7 @@ export function FormCriarEvento() {
             dataForm.append('descricao', data.descricao);
             dataForm.append('data_hora', data.data_hora);
             dataForm.append('urlsiteoficial', data.urlsiteoficial);
+            dataForm.append('categoria', data.categoria);
 
             if(imagePath) {
                 dataForm.append('image', {
@@ -85,11 +86,14 @@ export function FormCriarEvento() {
                 navigation.navigate('Home');
                 return;
             } else {
-                console.log("Não foi possível criar o evento");
+                console.log("Não foi possível criar o evento. Response: " + response);
                 return;
             }
         } catch (err) {
             console.log("Não foi possível criar o evento", err);
+            console.log("Verifique se a configuração em services está correta.");
+            alert('Verifique se a configuração em services está correta.');
+            return;
         }
     }
 
@@ -112,7 +116,7 @@ export function FormCriarEvento() {
             <Text style={styles.titulo}>Criar novo evento</Text>
             <View style={styles.Container}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <KeyboardAvoidingView behavior="position" enabled>
+                    <View>
 
                         <View style={styles.ProfilePhoto}>
                             <TouchableOpacity
@@ -200,6 +204,24 @@ export function FormCriarEvento() {
                             )}
                         />
 
+
+                        {
+                            !!errors.categoria && <ErrorMessage description={errors.categoria.message} />
+                        }
+                        <Controller
+                            name='categoria'
+                            control={control}
+                            render={({ field }) => (
+                                <TextInput
+                                    placeholder="Categoria *"
+                                    onBlur={field.onBlur}
+                                    onChangeText={field.onChange}
+                                    value={field.value}
+                                    style={styles.input}
+                                />
+                            )}
+                        />
+
                         {/* Menu Drop down */}
                         {/* <SelectionMenuEventoTipo data={data} setSelected={setSelected} /> */}
 
@@ -214,7 +236,7 @@ export function FormCriarEvento() {
                         </View>
 
 
-                    </KeyboardAvoidingView>
+                    </View>
                 </TouchableWithoutFeedback>
             </View>
         </View>

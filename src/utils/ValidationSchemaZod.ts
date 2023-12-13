@@ -35,6 +35,8 @@ export const schemaZodEvento = z.object({
     .refine((value) => value.length !== 0, { message: 'error:campo vazio' }),
   urlsiteoficial: z.string().trim()
     .refine((value) => value.length !== 0, { message: 'error:campo vazio' }),
+  categoria: z.string().trim().toLowerCase()
+    .refine((value) => value.length !== 0, { message: 'error:campo vazio' }),
   //site: z.string().optional(),
   //Colocar os outros campos depois
 })
