@@ -18,12 +18,10 @@ export default function Logout() {
 
 
     const { deslogar} = useAuth();
-
     const handleLogout = () => {
-        deslogar();
-     };
 
-    
+        deslogar()
+     };
 
     return (
         <View style={styles.container}>

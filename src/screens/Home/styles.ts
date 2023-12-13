@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 30,
     borderRadius: 20,
-    marginRight: 5
+    marginRight: 5,
   },
   Imagem:{
     width: 300,
