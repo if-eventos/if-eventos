@@ -59,8 +59,8 @@ const ListaEventosEducacao = ({ eventos }: { eventos: Evento[] }) => {
       horizontal
       renderItem={({ item }) => (
         <View style={{ borderWidth: 10, height: 200, padding: 10, margin: 5 }}>
-          <Text style={{ fontSize: 40, fontWeight: 'bold',  color:'white' }}>{item.nome}aaaaaaaaaaaaaa</Text>
-          <Text style={{ fontSize: 24, color:'white' }}>{item.descricao}aaaaaaaaaaaaaaa</Text>
+          <Text style={{ fontSize: 40, fontWeight: 'bold',  color:'black' }}>{item.nome}</Text>
+          <Text style={{ fontSize: 24, color:'black' }}>{item.descricao}</Text>
         </View>
       )}
       keyExtractor={item => item.id.toString()}
@@ -103,7 +103,7 @@ export default function Home (){
           <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Educação</Text>
         </View>
 
-        <View style={{ borderWidth: 1, height: 200}}>
+        <View style={{ borderWidth: 1, height: 200, width: 400, margin: 10}}>
           <ListaEventosEducacao eventos={eventos} />
         </View>
       </ScrollView>

@@ -11,7 +11,7 @@ interface Evento {
 export default async function fetchEventos(): Promise<Evento[]> {
     try {
       const response = await api.get('/api/v1/evento/todos');
-      return response.data as Evento[];
+      return response.data ["evento"] as Evento[];
     } catch (error) {
       console.error('Erro ao buscar eventos', error);
       throw error;
