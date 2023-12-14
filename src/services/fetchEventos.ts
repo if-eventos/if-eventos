@@ -5,6 +5,8 @@ interface Evento {
     nome: string;
     descricao: string;
     id: number;
+    image: any;
+    data_hora: string;
 }
 
 

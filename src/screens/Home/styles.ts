@@ -30,11 +30,25 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 5,
   },
-  Imagem:{
-    width: 300,
-    height: 200,
-    borderWidth: 1,
+  Image:{
+    height: 100,
     backgroundColor: 'black',
-    borderRadius: 20,
+    borderRadius: 5,
+    resizeMode: 'cover',
+
+  },
+  eventosEduc:{
+    height: 230, 
+    margin: 20,
+    maxWidth: 380,
+    borderRadius: 5
+  },
+
+  renderEventos:{
+  borderWidth: 2, 
+  height: 220, 
+  padding: 10, 
+  margin: 5,
+  borderRadius: 10
   }
 })
