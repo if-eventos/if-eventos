@@ -4,29 +4,39 @@ export const styles = StyleSheet.create({
   container: {
     flex:1,
     paddingHorizontal:20,
-    paddingTop:50,
     backgroundColor:'#fff',
   },
   user:{
     marginTop: 60,
     marginLeft: 30,
-    flexDirection: 'row'
   },
-  editar:{
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: 'black',
-    marginLeft: 5
+  editPerfilText:{
+    textAlign: "center", 
+    fontWeight: 'bold', 
+    fontSize: 16
   },
-  icon: {
-    marginLeft: 30,
+  userImage:{
+    width: 82, 
+    height: 80, 
+    borderRadius: 80, 
+    borderWidth: 1, 
+    borderColor: 'black',
+    alignSelf: 'center',
+    marginTop:50
+  },
+  ProfilePhoto:{
+    marginLeft: 12,
+    alignItems: 'center',
+    justifyContent: 'center'
 },
-button: {
-    marginTop: 20,
-    height: 30,
-    width:120,
-    flexDirection: 'row',  // Organiza os filhos em linha (ícone à esquerda, texto à direita)
-    borderRadius: 5,  // Borda arredondada
-    padding:5
-  },
+profile: {
+    width: 260,
+    height: 150,
+    borderWidth: 2,
+    borderColor: '#1A1919',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: "hidden",
+    backgroundColor: '#9fb1ff'
+},
 })

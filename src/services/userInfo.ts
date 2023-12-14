@@ -6,7 +6,7 @@ import api from "./api";
 
 
 export default function userInfo() {
-    const [userInfo, setUserInfo] = useState({ name: '', email: '', image: '' });
+    const [userInfo, setUserInfo] = useState({ name: '', email: '', image: '', telefone: '' , id: ''});
 
     useEffect(() => {
       async function loadUserInfo() {
@@ -16,9 +16,9 @@ export default function userInfo() {
 
           if (tokenStorage && idStorage) {
             const response = await api.get(`/api/v1/user/${idStorage}`);
-            const { name, email, image } = response.data.user;
+            const { name, email, image, telefone, id } = response.data.user;
             console.log(image);
-            setUserInfo({ name, email, image });
+            setUserInfo({ name, email, image, telefone, id });
           }
         } catch (error) {
           console.error('Erro ao carregar informações do usuário', error);
