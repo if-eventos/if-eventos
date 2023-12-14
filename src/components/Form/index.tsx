@@ -1,15 +1,18 @@
-import { Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, View, TouchableOpacity, Text } from 'react-native';
+import { Alert, Keyboard, TouchableWithoutFeedback, View, TouchableOpacity, Text } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
+
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+
+import { TextInput, Image } from 'react-native';
+import { useState } from 'react';
 
 import { schemaZod, IRegisterUser } from "../../utils/ValidationSchemaZod";
-import { ScrollView, TextInput, Image } from 'react-native';
 import { ErrorMessage } from '../ErrorMessage';
 import { styles } from './styles';
-import { useState } from 'react';
 
 import api from '../../services/api';
 
@@ -125,7 +128,7 @@ export function Form({ navigation }: any) {
     return (
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <KeyboardAvoidingView behavior="position" enabled>
+                <View>
 
 
                     <View style={styles.ProfilePhoto}>
@@ -137,7 +140,7 @@ export function Form({ navigation }: any) {
                                 imagePath ?
                                     <Image source={{ uri: imagePath, width: 90, height: 90 }} />
                                     :
-                                    <AntDesign name="plus" size={80} color="black" />
+                                    <Entypo name="camera" size={60} color="black" />
                             }
                         </TouchableOpacity>
                     </View>
@@ -294,7 +297,7 @@ export function Form({ navigation }: any) {
                         </TouchableOpacity>
                     </View>
 
-                </KeyboardAvoidingView>
+                </View>
             </TouchableWithoutFeedback>
 
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>

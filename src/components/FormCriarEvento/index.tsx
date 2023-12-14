@@ -7,15 +7,23 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { styles } from './styles';
 import api from '../../services/api';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SelectionMenuEventoTipo } from '../SelectionMenuEventoTipo';
 
-export function FormCriarEvento() {
+
+
+type Props = {
+    latitude: string,
+    longitude: string,
+}
+
+
+export function FormCriarEvento({ latitude, longitude }:Props) {
 
 
     const navigation = useNavigation();
@@ -25,6 +33,9 @@ export function FormCriarEvento() {
         resolver: zodResolver(schemaZodEvento)
     });
 
+
+    
+    
 
     //handle image:
     const [imagePath, setImagePath] = useState<string>();
@@ -45,10 +56,7 @@ export function FormCriarEvento() {
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
         });
         /* console.log(result); */
-        if(!result.canceled) { // se cancelou o upload da imagem
-          // questão do conceito de imutabilidade. sempre que uma imagem for adicionado, 
-          //temos que copiar as imagens que tinha antes no array. 
-          //se não vai apagar na próxima renderização. pois começa sempre do zero
+        if(!result.canceled) { 
           setImagePath(result.assets[0].uri);
           console.log(imagePath);
         }
@@ -75,6 +83,10 @@ export function FormCriarEvento() {
                             type: 'image/jpg',
                             uri: imagePath,
                   } as any);
+            }
+            if(latitude !== "0" && longitude !== "0") {
+                dataForm.append('latitude', latitude);
+                dataForm.append('longitude', longitude);
             }
 
             console.log(dataForm);
@@ -226,6 +238,21 @@ export function FormCriarEvento() {
                         {/* Menu Drop down */}
                         {/* <SelectionMenuEventoTipo data={data} setSelected={setSelected} /> */}
 
+                        <View style={styles.ContainerCriar}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={() => navigation.navigate('SelectMapPosition')}
+                            >
+                                <Text style={styles.buttonText}>Mapa posicao</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {
+                            latitude !== "0" 
+                            ?
+                                <Text>{latitude + " " + longitude}</Text>
+                            :
+                                <Text>Nenhuma localização selecionada</Text>
+                        }
 
                         <View style={styles.ContainerCriar}>
                             <TouchableOpacity

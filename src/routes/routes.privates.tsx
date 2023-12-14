@@ -3,6 +3,7 @@ import Icon from '@expo/vector-icons/MaterialIcons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import CriarEvento from '../screens/CriarEvento';
+import SelectMapPosition from '../screens/CriarEvento/SelectMapPosition';
 import Home from '../screens/Home';
 import Perfil from '../screens/Perfil';
 import EditPerfil from '../screens/EditPerfil';
@@ -23,6 +24,10 @@ export function RoutesPrivadas() {
       <Screen
         name='CriarEvento'
         component={CriarEvento}
+      />
+      <Screen
+        name='SelectMapPosition'
+        component={SelectMapPosition}
       />
       <Screen
         name='Perfil'
