@@ -1,28 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Alert, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { useAuth } from '../../hooks/useAuth';
 
-type Props = {
-  route?: { params?: { email?: string } };
-};
+
+interface ParamsEmail {
+  email: string
+}
 
 
-export function Login({ route }: Props) {
+export function Login() {
 
-  const navigation = useNavigation();
   const { logar } = useAuth();
-
-  const [emailUser, setEmailUser] = useState<string>(() => {
-    if (route && route.params && route.params.email) {
-      return route.params.email;
-    } else {
-      return "";
-    }
-  });
+  
+  const [emailUser, setEmailUser] = useState<string>("");
   const [passwordUser, setPasswordUser] = useState<string>("");
+
+  const navigation = useNavigation(); //Realizar navegação
+  const route = useRoute();           //Capturar parâmetros do navegation
+
+  //este useEffect é chamado sempre que um parametro é recebido
+  useEffect(() => {
+    if (route.params) {
+      const { email } = route.params as ParamsEmail; //vai tratar o route.params como um tipo específico
+      setEmailUser(email)
+    }
+  }, [route.params]);
+
   const [errorAutenticarNovoUsuario, setErrorAutenticarNovoUsuario] = useState(false);
 
 
@@ -49,9 +55,6 @@ export function Login({ route }: Props) {
       console.log("Algum erro aconteceu ao autenticar o usuário", err);
     }
   }
-
-
-
 
 
   return (
