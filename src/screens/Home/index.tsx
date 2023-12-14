@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList, ScrollView, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { styles } from './styles';
 
 import { Footer } from '../../components/Footer';
 import fetchEventos from '../../services/fetchEventos';
+import api from '../../services/api';
 
 interface Icons {
   key: string;
@@ -17,6 +18,8 @@ interface Evento {
   nome: string;
   descricao: string;
   id: number;
+  image: any;
+  data_hora: string;
 }
 
 const ListaHorizontalIcons = () => {
@@ -48,8 +51,6 @@ const ListaHorizontalIcons = () => {
   );
 };
 
-// Remova a interface que envolvia os eventos
-// ...
 
 const ListaEventosEducacao = ({ eventos }: { eventos: Evento[] }) => {
 
@@ -57,18 +58,25 @@ const ListaEventosEducacao = ({ eventos }: { eventos: Evento[] }) => {
     <FlatList
       data={eventos}
       horizontal
-      renderItem={({ item }) => (
-        <View style={{ borderWidth: 10, height: 200, padding: 10, margin: 5 }}>
-          <Text style={{ fontSize: 40, fontWeight: 'bold',  color:'black' }}>{item.nome}</Text>
-          <Text style={{ fontSize: 24, color:'black' }}>{item.descricao}</Text>
-        </View>
-      )}
+      renderItem={({ item }) => {
+        console.log('Item:', item);
+        console.log('Caminho da Imagem:', item.image);
+        console.log('URL Completa:', `${api.getUri()}/imgs/events/${item.image}`);
+        return (
+          <View style={styles.renderEventos}>
+            <Image source={{ uri: `${api.getUri()}/${item.image}` }} style={styles.Image} />
+            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', marginTop: 5 }}>{item.nome}</Text>
+            <Text style={{ fontSize: 16, color: 'black' }}>{item.descricao}</Text>
+            <Text style={{ fontSize: 12, color: '#3a3a3a' }}>Data do evento: {item.data_hora}</Text>
+          </View>
+        );
+      }}
       keyExtractor={item => item.id.toString()}
       showsHorizontalScrollIndicator={false}
-/>
-
+    />
   );
-};
+}
+
 
 export default function Home (){
   const [eventos, setEventos] = useState<Evento[]>([]);
@@ -89,7 +97,7 @@ export default function Home (){
 
   return (
     <View style={styles.container}>
-      <View style={{ height: 90 }}>
+      <View>
         <Text style={{ textAlign: 'left', fontSize: 18, marginLeft: 20, marginTop: 40, fontWeight: 'bold' }}>Bem vindo(a)</Text>
         <Text style={{ textAlign: 'left', fontSize: 12, marginLeft: 20, color: '#3A3A3A' }}>Descubra novos eventos</Text>
       </View>
@@ -103,7 +111,7 @@ export default function Home (){
           <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Educação</Text>
         </View>
 
-        <View style={{ borderWidth: 1, height: 200, width: 400, margin: 10}}>
+        <View style={styles.eventosEduc}>
           <ListaEventosEducacao eventos={eventos} />
         </View>
       </ScrollView>
