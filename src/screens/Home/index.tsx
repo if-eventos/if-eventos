@@ -59,12 +59,10 @@ const ListaEventosEducacao = ({ eventos }: { eventos: Evento[] }) => {
       data={eventos}
       horizontal
       renderItem={({ item }) => {
-        console.log('Item:', item);
         console.log('Caminho da Imagem:', item.image);
-        console.log('URL Completa:', `${api.getUri()}/imgs/events/${item.image}`);
         return (
           <View style={styles.renderEventos}>
-            <Image source={{ uri: `${api.getUri()}/${item.image}` }} style={styles.Image} />
+            <Image source={{ uri: `${api.getUri()}${item.image}` }} style={styles.Image} />
             <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', marginTop: 5 }}>{item.nome}</Text>
             <Text style={{ fontSize: 16, color: 'black' }}>{item.descricao}</Text>
             <Text style={{ fontSize: 12, color: '#3a3a3a' }}>Data do evento: {item.data_hora}</Text>
@@ -114,6 +112,7 @@ export default function Home (){
         <View style={styles.eventosEduc}>
           <ListaEventosEducacao eventos={eventos} />
         </View>
+        
       </ScrollView>
 
       <Footer />

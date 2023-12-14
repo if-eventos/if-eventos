@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
 
   renderEventos:{
   borderWidth: 2, 
-  height: 220, 
+  height: 200, 
   padding: 10, 
   margin: 5,
   borderRadius: 10

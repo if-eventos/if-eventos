@@ -101,6 +101,7 @@ export function FormCriarEvento() {
             console.log(dataForm);
 
             const response = await api.post('/api/v1/evento/criar', dataForm, config);
+            
 
             if (response.status === 200) {
                 console.log("Evento criado com sucesso");
