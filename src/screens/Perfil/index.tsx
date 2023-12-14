@@ -1,4 +1,3 @@
-
 import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native"
 import { Header } from "../../components/Header"
 import { Footer } from "../../components/Footer"
@@ -7,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../hooks/useAuth";
 import userInfo from "../../services/userInfo"
-
+import api from '../../services/api';
 
 
 export default function Logout() {
@@ -23,6 +22,7 @@ export default function Logout() {
         deslogar()
      };
 
+
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -30,7 +30,7 @@ export default function Logout() {
 
                 <View style={styles.user}>
                     <Image
-                        source={require('./images/IF.png')}
+                        source={{ uri: `${api.getUri()}${usuario.image}` }}
                         style={{ width: 82, height: 80, borderRadius: 80, marginRight: 10, borderWidth: 1, borderColor: 'black' }}
                     />
                     <View style={{marginTop: 15, marginLeft: 5}}>

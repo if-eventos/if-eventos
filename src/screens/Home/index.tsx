@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ScrollView, Image } from 'react-native';
+import { View, Text, FlatList, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { styles } from './styles';
-
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Footer } from '../../components/Footer';
 import fetchEventos from '../../services/fetchEventos';
 import api from '../../services/api';
@@ -53,7 +53,7 @@ const ListaHorizontalIcons = () => {
 
 
 const ListaEventosEducacao = ({ eventos }: { eventos: Evento[] }) => {
-
+  const navigation = useNavigation();
   return (
     <FlatList
       data={eventos}
@@ -66,6 +66,7 @@ const ListaEventosEducacao = ({ eventos }: { eventos: Evento[] }) => {
             <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', marginTop: 5 }}>{item.nome}</Text>
             <Text style={{ fontSize: 16, color: 'black' }}>{item.descricao}</Text>
             <Text style={{ fontSize: 12, color: '#3a3a3a' }}>Data do evento: {item.data_hora}</Text>
+           
           </View>
         );
       }}
