@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import MapView, { MapPressEvent, Marker } from 'react-native-maps';
 
@@ -8,25 +8,23 @@ import { Alert, TouchableOpacity, View, Text } from "react-native";
 import { styles } from "./styles";
 
 
-interface ParamsPositions {
-  position: {
-      latitude:number; 
-      longitude: number;
-  }
+type Coords = {
+  latitude: number,
+  longitude: number,
 }
 
-type Coords = {
-    latitude: number;
-    longitude: number;
-}
+
 
 export default function SelectMapPosition() {
 
-    const [currentLocation, setCurrentLocation] = useState<Coords | null>(null);
+  const navigation = useNavigation();
+  const route = useRoute();
+  
 
-    const navigation = useNavigation();
-
-    const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
+  const parmasPosition = route.params as Coords;
+  
+  const [positionMap, setPositionMap] = useState<Coords>(parmasPosition);
+  const [currentLocation, setCurrentLocation] = useState<Coords | null>(null);
 
 
     async function getMyLocation() {
@@ -42,12 +40,12 @@ export default function SelectMapPosition() {
     }
 
     function handleSelectMapPosition(event: MapPressEvent) {
-        setPosition(event.nativeEvent.coordinate);
+        setPositionMap(event.nativeEvent.coordinate);
     }
 
     function handleNextStep() {
         //navigation.navigate('Cadastro', { position });
-        navigation.navigate('CriarEvento', { position: {latitude:`${position.latitude}`, longitude: `${position.longitude}`} });
+        navigation.navigate('CriarEvento', positionMap );
     }
 
     useEffect(()=>{
@@ -72,12 +70,12 @@ export default function SelectMapPosition() {
               showsUserLocation
             >
     
-              {position.latitude !== 0 && (
+              {positionMap.latitude !== 0 && (
                 <Marker 
                 icon={require('../../../images/mapMarker.png')}
                 coordinate ={{
-                  latitude:position.latitude,
-                  longitude: position.longitude,
+                  latitude:positionMap.latitude,
+                  longitude: positionMap.longitude,
                 }}
               />
             )}
@@ -85,7 +83,7 @@ export default function SelectMapPosition() {
             </MapView>
           }
     
-          {position.latitude !== 0 && (
+          {positionMap.latitude !== 0 && (
           <TouchableOpacity style={styles.NextButton} onPress={handleNextStep}>
             <Text style={styles.TextNextButton}>Próximo</Text>
           </TouchableOpacity>

@@ -1,16 +1,18 @@
+type Coords = {
+  latitude: number,
+  longitude: number,
+}
+
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
       Login: undefined;
       Cadastro: undefined;
-      CriarEvento: undefined | {position: {
-        latitude:string; 
-        longitude: string;
-      };}
+      CriarEvento: undefined | Coords;
       Home: undefined;
       Perfil: undefined;
       EditPerfil: undefined;
-      SelectMapPosition: undefined;
+      SelectMapPosition: Coords
     }
   }
 }

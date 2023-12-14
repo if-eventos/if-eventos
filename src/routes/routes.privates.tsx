@@ -2,8 +2,8 @@ import React from 'react';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import CriarEvento from '../screens/CriarEvento';
-import SelectMapPosition from '../screens/CriarEvento/SelectMapPosition';
+import CriarEvento from '../screens/CadastroEvento/CriarEvento';
+import SelectMapPosition from '../screens/CadastroEvento/SelectMapPosition';
 import Home from '../screens/Home';
 import Perfil from '../screens/Perfil';
 import EditPerfil from '../screens/EditPerfil';

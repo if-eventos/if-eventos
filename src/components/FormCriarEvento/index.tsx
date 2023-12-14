@@ -17,16 +17,17 @@ import { SelectionMenuEventoTipo } from '../SelectionMenuEventoTipo';
 
 
 
-type Props = {
-    latitude: string,
-    longitude: string,
+type Coords = {
+    latitude: number,
+    longitude: number,
 }
 
 
-export function FormCriarEvento({ latitude, longitude }:Props) {
+export function FormCriarEvento() {
 
 
     const navigation = useNavigation();
+    const route = useRoute();
 
 
     const { control, handleSubmit, formState: { errors }, setValue } = useForm<IRegisterEvent>({
@@ -34,11 +35,19 @@ export function FormCriarEvento({ latitude, longitude }:Props) {
     });
 
 
-    
-    
-
+    //Controla a latitude e longitude do evento
+    const [position, setPosition] = useState<Coords>({ latitude: 0, longitude: 0 });
     //handle image:
     const [imagePath, setImagePath] = useState<string>();
+
+    useEffect(() => {
+        if (route.params) {
+          const { latitude, longitude } = route.params as Coords; //vai tratar o route.params como um tipo específico
+          setPosition({latitude, longitude});
+        }
+      }, [route.params]);
+
+
     async function handleSelectImage() {
         // tenho acesso a galeria de fotos e não a câmera
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -84,9 +93,9 @@ export function FormCriarEvento({ latitude, longitude }:Props) {
                             uri: imagePath,
                   } as any);
             }
-            if(latitude !== "0" && longitude !== "0") {
-                dataForm.append('latitude', latitude);
-                dataForm.append('longitude', longitude);
+            if(position.latitude !== 0 && position.longitude !== 0) {
+                dataForm.append('latitude', position.latitude.toString());
+                dataForm.append('longitude', position.longitude.toString());
             }
 
             console.log(dataForm);
@@ -240,18 +249,21 @@ export function FormCriarEvento({ latitude, longitude }:Props) {
                         <View style={styles.ContainerCriar}>
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={() => navigation.navigate('SelectMapPosition')}
+                                onPress={() => navigation.navigate('SelectMapPosition', position )}
                             >
                                 <Text style={styles.buttonText}>Mapa posicao</Text>
                             </TouchableOpacity>
                         </View>
-                        {
-                            latitude !== "0" 
-                            ?
-                                <Text>{latitude + " " + longitude}</Text>
-                            :
-                                <Text>Nenhuma localização selecionada</Text>
-                        }
+                        <View style={styles.mapButton} >
+                            {
+                                position.latitude !== 0 
+                                ?
+                                    <Text>{position.latitude + " " + position.longitude}</Text>
+                                :
+                                    <Text>Nenhuma localização selecionada</Text>
+                            }
+                        </View>
+
 
                         <View style={styles.ContainerCriar}>
                             <TouchableOpacity

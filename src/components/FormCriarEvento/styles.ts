@@ -68,5 +68,10 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         overflow: "hidden",
         backgroundColor: '#9fb1ff'
+    },
+    mapButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        margin: 5,
     }
 })
