@@ -39,6 +39,8 @@ export function FormCriarEvento() {
     const [position, setPosition] = useState<Coords>({ latitude: 0, longitude: 0 });
     //handle image:
     const [imagePath, setImagePath] = useState<string>();
+    //handle categoria
+    const [categoria, setCategoria] = useState<string>('');
 
     useEffect(() => {
         if (route.params) {
@@ -84,7 +86,13 @@ export function FormCriarEvento() {
             dataForm.append('descricao', data.descricao);
             dataForm.append('data_hora', data.data_hora);
             dataForm.append('urlsiteoficial', data.urlsiteoficial);
-            dataForm.append('categoria', data.categoria);
+
+            if (categoria) {
+                dataForm.append('categoria', categoria);
+            } else {
+                console.error("Categoria é obrigatório!");
+                return;
+            }
 
             if(imagePath) {
                 dataForm.append('image', {
@@ -227,22 +235,19 @@ export function FormCriarEvento() {
                         />
 
 
-                        {
+                        {/* {
                             !!errors.categoria && <ErrorMessage description={errors.categoria.message} />
+                        } */}
+                        <View style={styles.categoriaContainer}>
+                        {
+                            categoria 
+                            ?
+                                <Text style={styles.categoriaText}>{categoria}</Text>
+                            :
+                                <Text style={styles.categoriaText}>Seleciona uma categoria:</Text>
                         }
-                        <Controller
-                            name='categoria'
-                            control={control}
-                            render={({ field }) => (
-                                <TextInput
-                                    placeholder="Categoria *"
-                                    onBlur={field.onBlur}
-                                    onChangeText={field.onChange}
-                                    value={field.value}
-                                    style={styles.input}
-                                />
-                            )}
-                        />
+                        </View>
+                        <SelectionMenuEventoTipo setSelected={setCategoria} />
 
                         {/* Menu Drop down */}
                         {/* <SelectionMenuEventoTipo data={data} setSelected={setSelected} /> */}
