@@ -20,7 +20,6 @@ export function ButtonCategoria({icon, name, set}:Props) {
                 size={40}
                 color="#3b6db3"
             />
-            <Text>{name}</Text>
         </TouchableOpacity>
     )
 }

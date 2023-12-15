@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     button: {
-        width: 50,
-        height: 50,
+        width: 80,
+        height: 80,
         backgroundColor: 'aliceblue',
 
         alignItems: "center",
