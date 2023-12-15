@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
@@ -16,7 +16,7 @@ const InfoUser: React.FC = () => {
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
   const [newEmail, setNewEmail] = useState('');
-  const [imagePath, setImagePath] = useState<string>();
+  const [imagePath, setImagePath] = useState<string | null>(null);
   const Usuario = userInfo();
   const navigation = useNavigation();
 
@@ -24,7 +24,7 @@ const InfoUser: React.FC = () => {
     // tenho acesso a galeria de fotos e não a câmera
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     /* console.log(status); */
-    if(status !== 'granted'){// granted é quando o usuário deu permissão
+    if (status !== 'granted') {// granted é quando o usuário deu permissão
       alert('Eita, precisamos de acesso às suas fotos...');
       return;
     }
@@ -32,12 +32,12 @@ const InfoUser: React.FC = () => {
       // permite ao usuario editar a imagem (crop), antes de subir o app
       allowsEditing: true,
       quality: 1,
-      aspect: [5, 3],
+      aspect: [3, 3],
       //quero apensas imagems e não vídeo tb
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
+  });
     /* console.log(result); */
-    if(!result.canceled) { 
+    if (!result.canceled) {
       setImagePath(result.assets[0].uri);
       console.log(imagePath);
     }
@@ -48,34 +48,29 @@ const InfoUser: React.FC = () => {
     console.log(newName, newPhone, newEmail);
 
     const config = {
-        headers: { 'content-type': 'multipart/form-data' }
+      headers: { 'content-type': 'multipart/form-data' }
     }
     try {
-        const dataForm = new FormData();
+      const dataForm = new FormData();
 
-        dataForm.append('name', newName);
-        dataForm.append('telefone', newPhone);
-        dataForm.append('email', newEmail);
+      if(newName)  dataForm.append('name', newName);
+      if(newPhone) dataForm.append('telefone', newPhone);
+      if(newEmail) dataForm.append('email', newEmail);
 
-        if(imagePath) {
-            dataForm.append('image', {
-                    name: `imagehash.jpg`,
-                    type: 'image/jpg',
-                    uri: imagePath,
-                } as any);
-            }else{
-                dataForm.append('image', {
-                    name: `imagehash.jpg`,
-                    type: 'image/jpg',
-                    uri: `${api.getUri()}${Usuario.image}`
-                } as any)
-            }
-        const response = await api.patch(`/api/v1/user/atualizarUser/`, dataForm, config);
-        navigation.navigate('Perfil');
-        
+      if (imagePath) {
+        dataForm.append('image', {
+          name: `imagehash.jpg`,
+          type: 'image/jpg',
+          uri: imagePath,
+        } as any);
+      }
+
+      const response = await api.patch(`/api/v1/user/atualizarUser/`, dataForm, config);
+      navigation.navigate('Perfil');
+
     } catch (error) {
 
-        console.error('Erro ao atualizar perfil', error);
+      console.error('Erro ao atualizar perfil', error);
     }
   };
 
@@ -87,7 +82,24 @@ const InfoUser: React.FC = () => {
           <View>
             <Text style={styles.editPerfilText}>Editar Perfil</Text>
           </View>
-          <Image source={{ uri: `${api.getUri()}${Usuario.image}` }} style={styles.userImage} />
+
+          
+          <TouchableOpacity
+              onPress={handleSelectImage}
+            >
+            {
+              imagePath 
+              ?
+                <Image source={{ uri: imagePath }} style={styles.userImage} />
+              :
+                <Image source={{ uri: api.getUri() + Usuario.image }} style={styles.userImage} />
+            }
+          </TouchableOpacity>
+
+
+
+
+
           <TextInput
             placeholder="Novo Nome"
             value={newName}
@@ -103,21 +115,6 @@ const InfoUser: React.FC = () => {
             value={newEmail}
             onChangeText={(text) => setNewEmail(text)}
           />
-          
-          <View style={styles.ProfilePhoto}>
-                            <TouchableOpacity
-                                style={styles.profile}
-                                onPress={handleSelectImage}
-                            >
-                                {
-                                    imagePath ?
-                                        <Image source={{uri: imagePath, width: 270, height: 150}} />
-                                    : 
-                                    <Image source={{ uri: `${api.getUri()}${Usuario.image}` }} />
-                                
-                                }
-                            </TouchableOpacity>
-                        </View>
 
           <TouchableOpacity onPress={handleUpdateProfile}>
             <Ionicons name="checkmark" size={20} color="green" />
