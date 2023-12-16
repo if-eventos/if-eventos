@@ -3,13 +3,23 @@ import { Header } from "../../components/Header"
 import { Footer } from "../../components/Footer"
 import { styles } from "./styles"
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../hooks/useAuth";
 import userInfo from "../../services/userInfo"
 import api from '../../services/api';
+import { useState } from "react"
+import React from "react"
+
+interface User1 {
+    name: string;
+    email: string;
+    image: string;
+    telefone: string;
+    id: string;
+  }
 
 
-export default function Logout() {
+export default function Main() {
 
     const usuario = userInfo();
 
@@ -21,6 +31,22 @@ export default function Logout() {
 
         deslogar()
      };
+
+    // const [user, setUser] = useState<User1 | null>(null);
+    // useFocusEffect(
+    //   React.useCallback(() => {
+    //     const loadUser = async () => {
+    //       try {
+    //         const usuarioo = userInfo(); 
+    //         setUser(usuarioo);
+    //       } catch (error) {
+    //         console.error('Erro ao carregar informações', error);
+    //       }
+    //     };
+  
+    //     loadUser();
+    //   }, [])
+    // );
 
 
     return (

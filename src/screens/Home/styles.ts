@@ -46,9 +46,10 @@ export const styles = StyleSheet.create({
 
   renderEventos:{
   borderWidth: 2, 
-  height: 200, 
+  maxHeight: 300, 
   padding: 10, 
   margin: 5,
-  borderRadius: 10
+  borderRadius: 10,
+  maxWidth: 320
   }
 })

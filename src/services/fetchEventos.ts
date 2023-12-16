@@ -7,6 +7,7 @@ interface Evento {
     id: number;
     image: any;
     data_hora: string;
+    categoria: string;
 }
 
 
@@ -18,4 +19,4 @@ export default async function fetchEventos(): Promise<Evento[]> {
       console.error('Erro ao buscar eventos', error);
       throw error;
     }
-}
+}                   

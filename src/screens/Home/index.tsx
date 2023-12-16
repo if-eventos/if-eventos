@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { styles } from './styles';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { Footer } from '../../components/Footer';
 import fetchEventos from '../../services/fetchEventos';
 import api from '../../services/api';
@@ -20,6 +20,7 @@ interface Evento {
   id: number;
   image: any;
   data_hora: string;
+  categoria: string;
 }
 
 const ListaHorizontalIcons = () => {
@@ -52,14 +53,14 @@ const ListaHorizontalIcons = () => {
 };
 
 
-const ListaEventosEducacao = ({ eventos }: { eventos: Evento[] }) => {
+const ListaEventos = ({ eventos }: { eventos: Evento[] }) => {
   const navigation = useNavigation();
   return (
     <FlatList
       data={eventos}
       horizontal
       renderItem={({ item }) => {
-        console.log('Caminho da Imagem:', item.image);
+        //console.log('Caminho da Imagem:', item.image);
         return (
           <View style={styles.renderEventos}>
             <Image source={{ uri: `${api.getUri()}${item.image}` }} style={styles.Image} />
@@ -77,22 +78,67 @@ const ListaEventosEducacao = ({ eventos }: { eventos: Evento[] }) => {
 }
 
 
-export default function Home (){
+export default function Home() {
   const [eventos, setEventos] = useState<Evento[]>([]);
+  const [eventosADS, setEventosADS] = useState<Evento[]>([]);
+  const [eventosCivil, setEventosCivil] = useState<Evento[]>([]);
+  const [isFocused, setIsFocused] = useState(false);
+
+  useFocusEffect(() => {
+    setIsFocused(true);
+
+    return () => setIsFocused(false);
+  });
 
   useEffect(() => {
-    const loadEventos = async () => {
+    const loadEventosAll = async () => {
       try {
         const eventosData = await fetchEventos();
         setEventos(eventosData);
-        console.log('Eventos:', eventosData);
+        //console.log('Eventos:', eventosData);
       } catch (error) {
         console.error('Erro ao carregar informações', error);
       }
     };
 
-    loadEventos();
-  }, [fetchEventos]);
+    const loadEventosADS = async () => {
+      try {
+        const eventosData = await fetchEventos();
+        const eventosADSArray: Evento[] = [];
+        eventosData.forEach((evento) => {
+          if (evento.categoria === 'ads') {
+            eventosADSArray.push(evento);
+          }
+        });
+        setEventosADS(eventosADSArray);
+      } catch (error) {
+        console.error('Erro ao carregar informações', error);
+      }
+    };
+
+    const loadEventosCivil = async () => {
+      try {
+        const eventosData = await fetchEventos();
+        const eventosCivilArray: Evento[] = [];
+        eventosData.forEach((evento)=>{
+          if(evento.categoria == 'engenharia-civil'){
+            eventosCivilArray.push(evento);
+          }
+          setEventosCivil(eventosCivilArray);
+        })
+        
+      } catch (error) {
+        console.error('Erro ao carregar informações', error);
+      }
+    };
+
+    if (isFocused) {
+      loadEventosAll();
+      loadEventosADS();
+      loadEventosCivil();
+    }
+  }, [isFocused]);
+  
 
   return (
     <View style={styles.container}>
@@ -107,11 +153,27 @@ export default function Home (){
         </View>
 
         <View>
-          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Educação</Text>
+          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Destaques</Text>
+        </View>
+        <View style={styles.eventosEduc}>
+          <ListaEventos eventos={eventos} />
+        </View>
+
+        <View>
+          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Análise e Desenvolvimento de Sistemas</Text>
+        </View>
+        <View style={styles.eventosEduc}>
+          <ListaEventos eventos={eventosADS} />
+        </View>
+
+        <View>
+          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Engenharia Civil </Text>
+        </View>
+        <View style={styles.eventosEduc}>
+          <ListaEventos eventos={eventosCivil} />
         </View>
 
         <View style={styles.eventosEduc}>
-          <ListaEventosEducacao eventos={eventos} />
         </View>
         
       </ScrollView>

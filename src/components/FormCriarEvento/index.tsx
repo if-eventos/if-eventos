@@ -121,7 +121,19 @@ export function FormCriarEvento() {
             }
         } catch (err) {
             console.log("Não foi possível criar o evento", err);
-            console.log("Verifique se a configuração em services está correta.");
+            console.log("Detalhes do erro:", err);
+        
+            // Se o erro tem a propriedade status, imprima-a
+            if (err.status !== undefined) {
+                console.log("Status do erro:", err.status);
+            }
+        
+            // Imprima a mensagem do erro
+            console.log("Mensagem do erro:", err.message);
+        
+            // Imprima a pilha de chamadas do erro (trace)
+            console.log("Rastreamento do erro:", err.stack);
+        
             alert('Verifique se a configuração em services está correta.');
             return;
         }
