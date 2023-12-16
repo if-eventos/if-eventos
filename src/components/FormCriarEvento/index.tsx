@@ -108,21 +108,25 @@ export function FormCriarEvento() {
 
             console.log(dataForm);
 
-            const response = await api.post('/api/v1/evento/criar', dataForm, config);
-            
 
-            if (response.status === 200) {
-                console.log("Evento criado com sucesso");
-                navigation.navigate('Home');
+            await api.post('/api/v1/evento/criar', dataForm, config)
+            .then((r) => {
+                if (r.status === 200) {
+                    console.log("Evento criado com sucesso", r.status);
+                    navigation.navigate('Home');
+                    return;
+                }
+            })
+            .catch((e) => {
+                console.log("Não foi possível criar o evento", e);
+                alert('Nome de Evento já existe!');
                 return;
-            } else {
-                console.log("Não foi possível criar o evento. Response: " + response);
-                return;
-            }
+            });
+
         } catch (err) {
             console.log("Não foi possível criar o evento", err);
             console.log("Verifique se a configuração em services está correta.");
-            alert('Verifique se a configuração em services está correta.');
+            alert('Algum erro ocorreu');
             return;
         }
     }
