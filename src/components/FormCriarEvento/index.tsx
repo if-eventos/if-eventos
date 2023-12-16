@@ -1,4 +1,4 @@
-import { Alert, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, View, TouchableOpacity, Text, TextInput, Image } from 'react-native';
+import { Alert, Keyboard, TouchableWithoutFeedback, View, TouchableOpacity, Text, TextInput, Image } from 'react-native';
 import { schemaZodEvento, IRegisterEvent } from "../../utils/ValidationSchemaZod";
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -13,7 +13,7 @@ import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from 'react';
 
-import { SelectionMenuEventoTipo } from '../SelectionMenuEventoTipo';
+import { Picker } from '@react-native-picker/picker';
 
 
 
@@ -35,12 +35,14 @@ export function FormCriarEvento() {
     });
 
 
-    //Controla a latitude e longitude do evento
-    const [position, setPosition] = useState<Coords>({ latitude: 0, longitude: 0 });
     //handle image:
     const [imagePath, setImagePath] = useState<string>();
+
+    //Controla a latitude e longitude do evento
+    const [position, setPosition] = useState<Coords>({ latitude: 0, longitude: 0 });
+
     //handle categoria
-    const [categoria, setCategoria] = useState<string>('');
+    const [categoria, setCategoria] = useState<string>('ads');
 
     useEffect(() => {
         if (route.params) {
@@ -89,9 +91,6 @@ export function FormCriarEvento() {
 
             if (categoria) {
                 dataForm.append('categoria', categoria);
-            } else {
-                console.error("Categoria é obrigatório!");
-                return;
             }
 
             if(imagePath) {
@@ -101,6 +100,7 @@ export function FormCriarEvento() {
                             uri: imagePath,
                   } as any);
             }
+
             if(position.latitude !== 0 && position.longitude !== 0) {
                 dataForm.append('latitude', position.latitude.toString());
                 dataForm.append('longitude', position.longitude.toString());
@@ -128,17 +128,6 @@ export function FormCriarEvento() {
     }
 
 
-    /* const [selected, setSelected] = useState("");
-    
-    const data = [
-        { label: "Educaçao", value: "educacao" },
-        { label: "Saúde", value: "saude" },
-        { label: "Medicina", value: "medicina" },
-        { label: "Direito", value: "direito" },
-        { label: "Programação", value: "programacao" },
-        { label: "Jornalismo", value: "jornalismo" },
-        { label: "Esportes", value: "esportes" },
-    ]; */
 
 
     return (
@@ -148,6 +137,7 @@ export function FormCriarEvento() {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View>
 
+                        {/* Botão para selecionar uma imagem */}
                         <View style={styles.ProfilePhoto}>
                             <TouchableOpacity
                                 style={styles.profile}
@@ -235,32 +225,32 @@ export function FormCriarEvento() {
                         />
 
 
-                        {/* {
-                            !!errors.categoria && <ErrorMessage description={errors.categoria.message} />
-                        } */}
-                        <View style={styles.categoriaContainer}>
-                        {
-                            categoria 
-                            ?
-                                <Text style={styles.categoriaText}>{categoria}</Text>
-                            :
-                                <Text style={styles.categoriaText}>Seleciona uma categoria:</Text>
-                        }
+                        
+                        {/* DropDown para selecionar uma categoria */}
+                        <View>
+                            <Text>Selicione uma categoria:</Text>
+                            <Picker
+                                selectedValue={categoria}
+                                onValueChange={(item) => setCategoria(item)}
+                            >
+                                <Picker.Item label="ADS" value="ads" />
+                                <Picker.Item label="Matemática" value="matematica" />
+                                <Picker.Item label="Engenharia Civil" value="engenharia-civil" />
+                                <Picker.Item label="Controle e Automação" value="controle-automacao" />
+                            </Picker>
                         </View>
-                        <SelectionMenuEventoTipo setSelected={setCategoria} />
 
-                        {/* Menu Drop down */}
-                        {/* <SelectionMenuEventoTipo data={data} setSelected={setSelected} /> */}
-
-                        <View style={styles.ContainerCriar}>
+                        
+                        {/* Views para lidar com a localização */}
+                        <View style={styles.MapContainer}>
                             <TouchableOpacity
-                                style={styles.button}
+                                style={styles.mapButton}
                                 onPress={() => navigation.navigate('SelectMapPosition', position )}
                             >
                                 <Text style={styles.buttonText}>Mapa posicao</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={styles.mapButton} >
+                        <View style={styles.MapContainer}>
                             {
                                 position.latitude !== 0 
                                 ?
@@ -271,6 +261,7 @@ export function FormCriarEvento() {
                         </View>
 
 
+                        {/* Botao para confirmar a criação do evento */}
                         <View style={styles.ContainerCriar}>
                             <TouchableOpacity
                                 style={styles.button}
