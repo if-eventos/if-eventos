@@ -69,22 +69,17 @@ export const styles = StyleSheet.create({
         overflow: "hidden",
         backgroundColor: '#9fb1ff'
     },
+    MapContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     mapButton: {
+        backgroundColor: '#9ee6a2',
+        color: 'black',
+        width: 242,
+        height: 53,
         alignItems: "center",
         justifyContent: "center",
         margin: 5,
-    },
-    categoriaText: {
-        fontSize: 20,
-        margin: 10,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: 'black',
-        paddingHorizontal: 40,
-        paddingVertical: 10
-    },
-    categoriaContainer: {
-        alignItems: "center",
-        justifyContent: "center"
     }
 })
