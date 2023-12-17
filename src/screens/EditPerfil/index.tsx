@@ -13,44 +13,25 @@ import * as ImagePicker from 'expo-image-picker';
 
 
 
-export default function InfoUser(){
-  const {name, telefone, email} = userInfo();
-  const Usuario = userInfo();
+export default function InfoUser() {
+  const { name, telefone, email, image } = userInfo();
 
-  const nameteste = name;
+  console.log('Dados do usuário:', { name, telefone, email, image });
 
-  const [newName, setNewName] = useState(name.slice());
-  const [newPhone, setNewPhone] = useState('Usuario.telefone');
-  const [newEmail, setNewEmail] = useState('Usuario.email');
+  const [newName, setNewName] = useState(name);
+  const [newPhone, setNewPhone] = useState(telefone);
+  const [newEmail, setNewEmail] = useState(email);
   const [imagePath, setImagePath] = useState<string | null>(null);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    console.log(newName, 'useeffect');
-  }, [newName]);
 
-  async function handleSelectImage() {
-    // tenho acesso a galeria de fotos e não a câmera
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    /* console.log(status); */
-    if (status !== 'granted') {// granted é quando o usuário deu permissão
-      alert('Eita, precisamos de acesso às suas fotos...');
-      return;
-    }
-    let result = await ImagePicker.launchImageLibraryAsync({
-      // permite ao usuario editar a imagem (crop), antes de subir o app
-      allowsEditing: true,
-      quality: 1,
-      aspect: [3, 3],
-      //quero apensas imagems e não vídeo tb
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  });
-    /* console.log(result); */
-    if (!result.canceled) {
-      setImagePath(result.assets[0].uri);
-      console.log(imagePath);
-    }
-  }
+  useEffect(() => {
+    setNewName(name);
+    setNewPhone(telefone);
+    setNewEmail(email);
+  }, [name, telefone, email]);
+
+
 
   const handleUpdateProfile = async () => {
     
@@ -75,7 +56,7 @@ export default function InfoUser(){
       }
 
       const response = await api.patch(`/api/v1/user/atualizarUser/`, dataForm, config);
-      navigation.navigate('Perfil');
+      navigation.navigate('Home');
 
     } catch (error) {
 
@@ -83,54 +64,81 @@ export default function InfoUser(){
     }
 
 }
+
+
+  console.log('Estados iniciais:', { newName, newPhone, newEmail, imagePath });
+
+
+  async function handleSelectImage() {
+    // tenho acesso a galeria de fotos e não a câmera
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    /* console.log(status); */
+    if (status !== 'granted') {// granted é quando o usuário deu permissão
+      alert('Eita, precisamos de acesso às suas fotos...');
+      return;
+    }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      // permite ao usuario editar a imagem (crop), antes de subir o app
+      allowsEditing: true,
+      quality: 1,
+      aspect: [3, 3],
+      //quero apensas imagems e não vídeo tb
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  });
+    /* console.log(result); */
+    if (!result.canceled) {
+      setImagePath(result.assets[0].uri);
+      console.log(imagePath);
+    }
+  }
+
   
-  return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Header pageName="Editar Perfil" descricao="Personalize seu perfil." />
-        <View style={styles.user}>
-          <View>
-            <Text style={styles.editPerfilText}>Editar Perfil</Text>
-          </View>
-
-          
-          <TouchableOpacity
-              onPress={handleSelectImage}
-            >
-            {
-              imagePath 
-              ?
-                <Image source={{ uri: imagePath }} style={styles.userImage} />
-              :
-                <Image source={{ uri: api.getUri() + Usuario.image }} style={styles.userImage} />
-            }
-          </TouchableOpacity>
-
-          <View style={{justifyContent: 'center', alignSelf: 'center', marginTop:30}}>
-            <TextInput style={styles.textInput}
-              placeholder="Novo Nome"
-              value={newName}
-              onChangeText={(text) => setNewName(text)}
-            />
-            <TextInput style={styles.textInput}
-              placeholder="Novo Telefone"
-              value={newPhone}
-              onChangeText={(text) => setNewPhone(text)}
-            />
-            <TextInput style={styles.textInput}
-              placeholder="Novo Email"
-              value={newEmail}
-              onChangeText={(text) => setNewEmail(text)}
-            />
-          </View>
-
-          <TouchableOpacity onPress={handleUpdateProfile} style={styles.btnSalvar}>
-            <Ionicons name="checkmark" size={20} color="white" />
-            <Text style={{ color: 'white', textAlign: 'center', marginLeft: 5}}>Salvar Alterações</Text>
-          </TouchableOpacity>
+  
+return (
+  <View style={styles.container}>
+    <ScrollView>
+      <Header pageName="Editar Perfil" descricao="Personalize seu perfil." />
+      <View style={styles.user}>
+        <View>
+          <Text style={styles.editPerfilText}>Editar Perfil</Text>
         </View>
-      </ScrollView>
-      <Footer />
-    </View>
-  );
-};
+
+        <TouchableOpacity onPress={handleSelectImage}>
+          {imagePath ? (
+            <Image source={{ uri: imagePath }} style={styles.userImage} />
+          ) : (
+            <Image source={{ uri: api.getUri() + image }} style={styles.userImage} />
+          )}
+        </TouchableOpacity>
+
+        <View style={{ justifyContent: 'center', alignSelf: 'center', marginTop: 30 }}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Novo Nome"
+            value={newName}
+            onChangeText={(text) => setNewName(text)}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Novo Telefone"
+            value={newPhone}
+            onChangeText={(text) => setNewPhone(text)}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Novo Email"
+            value={newEmail}
+            onChangeText={(text) => setNewEmail(text)}
+          />
+        </View>
+
+        <TouchableOpacity onPress={handleUpdateProfile} style={styles.btnSalvar}>
+          <Ionicons name="checkmark" size={20} color="white" />
+          <Text style={{ color: 'white', textAlign: 'center', marginLeft: 5 }}>Salvar Alterações</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+    <Footer />
+  </View>
+);
+}
