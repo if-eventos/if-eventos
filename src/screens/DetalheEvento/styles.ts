@@ -31,7 +31,7 @@ button: {
 
 renderEventos:{
   borderWidth: 2, 
-  maxHeight: 250, 
+  maxHeight: 600, 
   padding: 10, 
   margin: 5,
   borderRadius: 10,
@@ -41,7 +41,7 @@ renderEventos:{
 },
 
 Image:{
-  height: 100,
+  height: 180,
   backgroundColor: 'black',
   borderRadius: 5,
   resizeMode: 'cover',

@@ -7,12 +7,6 @@ import { Footer } from '../../components/Footer';
 import fetchEventos from '../../services/fetchEventos';
 import api from '../../services/api';
 
-interface Icons {
-  key: string;
-  nome: string;
-  iconName: string;
-}
-
 interface Evento {
   key: string;
   nome: string;
@@ -22,33 +16,6 @@ interface Evento {
   data_hora: string;
   categoria: string;
 }
-
-const ListaHorizontalIcons = () => {
-  const data: Icons[] = [
-    { key: '1', nome: 'Educação', iconName: 'graduation-cap' },
-    { key: '2', nome: 'Saúde', iconName: 'heartbeat' },
-    { key: '3', nome: 'Medicina', iconName: 'medkit' },
-    { key: '4', nome: 'Direito', iconName: 'balance-scale' },
-  ];
-
-  const renderItem = ({ item }: { item: Icons }) => (
-    <View style={styles.opcao}>
-      <Icon name={item.iconName} type='font-awesome' size={40} color='#517fa4' />
-      <Text style={styles.opcaoTexto}>{item.nome}</Text>
-    </View>
-  );
-
-  return (
-    <FlatList
-      data={data}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      renderItem={renderItem}
-      keyExtractor={item => item.key}
-    />
-  );
-};
-
 
 const ListaEventos = ({ eventos }: { eventos: Evento[] }) => {
   const navigation = useNavigation();
@@ -147,9 +114,7 @@ export default function Home() {
       </View>
 
       <ScrollView>
-        <View>
-          <ListaHorizontalIcons />
-        </View>
+        
 
         <View>
           <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Destaques</Text>
@@ -159,15 +124,16 @@ export default function Home() {
         </View>
 
         <View>
-          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Análise e Desenvolvimento de Sistemas</Text>
+          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, fontWeight: 'bold' }}>Análise e Desenvolvimento de Sistemas</Text>
         </View>
         <View style={styles.eventosEduc}>
           <ListaEventos eventos={eventosADS} />
         </View>
 
         <View>
-          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Engenharia Civil </Text>
+          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, fontWeight: 'bold' }}>Engenharia Civil </Text>
         </View>
+        
         <View style={styles.eventosEduc}>
           <ListaEventos eventos={eventosCivil} />
         </View>
