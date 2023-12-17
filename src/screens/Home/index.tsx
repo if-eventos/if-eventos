@@ -29,9 +29,6 @@ const ListaHorizontalIcons = () => {
     { key: '2', nome: 'Saúde', iconName: 'heartbeat' },
     { key: '3', nome: 'Medicina', iconName: 'medkit' },
     { key: '4', nome: 'Direito', iconName: 'balance-scale' },
-    { key: '5', nome: 'Programação', iconName: 'code' },
-    { key: '6', nome: 'Jornalismo', iconName: 'newspaper-o' },
-    { key: '7', nome: 'Esportes', iconName: 'bolt' }
   ];
 
   const renderItem = ({ item }: { item: Icons }) => (
@@ -59,23 +56,25 @@ const ListaEventos = ({ eventos }: { eventos: Evento[] }) => {
     <FlatList
       data={eventos}
       horizontal
-      renderItem={({ item }) => {
-        //console.log('Caminho da Imagem:', item.image);
-        return (
+      renderItem={({ item }) => (
+        
+        <TouchableOpacity onPress={() => {
+            //@ts-ignore
+            navigation.navigate('DetalheEvento', { evento: item })}}>
+
           <View style={styles.renderEventos}>
             <Image source={{ uri: `${api.getUri()}${item.image}` }} style={styles.Image} />
             <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', marginTop: 5 }}>{item.nome}</Text>
-            <Text style={{ fontSize: 16, color: 'black' }}>{item.descricao}</Text>
             <Text style={{ fontSize: 12, color: '#3a3a3a' }}>Data do evento: {item.data_hora}</Text>
            
           </View>
-        );
-      }}
-      keyExtractor={item => item.id.toString()}
+        </TouchableOpacity>
+      )}
+      keyExtractor={(item) => item.id.toString()}
       showsHorizontalScrollIndicator={false}
     />
   );
-}
+};
 
 
 export default function Home() {

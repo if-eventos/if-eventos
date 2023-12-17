@@ -27,5 +27,25 @@ button: {
     flexDirection: 'row', 
     borderRadius: 5,  
     padding:5
-  },
+},
+
+renderEventos:{
+  borderWidth: 2, 
+  maxHeight: 250, 
+  padding: 10, 
+  margin: 5,
+  borderRadius: 10,
+  maxWidth: 330,
+  width:330,
+  
+},
+
+Image:{
+  height: 100,
+  backgroundColor: 'black',
+  borderRadius: 5,
+  resizeMode: 'cover',
+},
+
+
 })

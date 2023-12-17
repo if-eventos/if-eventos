@@ -35,10 +35,9 @@ export const styles = StyleSheet.create({
     backgroundColor: 'black',
     borderRadius: 5,
     resizeMode: 'cover',
-
   },
   eventosEduc:{
-    height: 230, 
+    height: 280, 
     margin: 20,
     maxWidth: 380,
     borderRadius: 5
@@ -50,6 +49,7 @@ export const styles = StyleSheet.create({
   padding: 10, 
   margin: 5,
   borderRadius: 10,
-  maxWidth: 320
+  maxWidth: 320,
+  width: 250,
   }
 })
