@@ -32,23 +32,7 @@ export default function Main() {
         deslogar()
      };
 
-    // const [user, setUser] = useState<User1 | null>(null);
-    // useFocusEffect(
-    //   React.useCallback(() => {
-    //     const loadUser = async () => {
-    //       try {
-    //         const usuarioo = userInfo(); 
-    //         setUser(usuarioo);
-    //       } catch (error) {
-    //         console.error('Erro ao carregar informações', error);
-    //       }
-    //     };
-  
-    //     loadUser();
-    //   }, [])
-    // );
-
-
+     
     return (
         <View style={styles.container}>
             <ScrollView>

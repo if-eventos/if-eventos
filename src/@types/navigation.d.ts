@@ -13,6 +13,7 @@ export declare global {
       Perfil: undefined;
       EditPerfil: undefined;
       SelectMapPosition: Coords
+      DetalheEvento: undefined;
     }
   }
 }

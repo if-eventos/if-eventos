@@ -13,7 +13,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 
 
-export default function InfoUser() {
+export default function EditPerfil() {
   const { name, telefone, email, image } = userInfo();
 
   console.log('Dados do usuário:', { name, telefone, email, image });

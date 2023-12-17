@@ -19,7 +19,7 @@ export function Footer() {
             <TouchableOpacity>
                 <Feather name="search" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("DetalheEvento")}>
                 <Feather name="star" size={24} color="black" />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("CriarEvento")}>

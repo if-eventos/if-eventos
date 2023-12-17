@@ -7,6 +7,7 @@ import SelectMapPosition from '../screens/CadastroEvento/SelectMapPosition';
 import Home from '../screens/Home';
 import Perfil from '../screens/Perfil';
 import EditPerfil from '../screens/EditPerfil';
+import DetalheEvento from '../screens/DetalheEvento'
 
 
 const { Navigator, Screen } = createNativeStackNavigator();
@@ -36,6 +37,10 @@ export function RoutesPrivadas() {
       <Screen
         name='EditPerfil'
         component={EditPerfil}
+      />
+      <Screen
+        name='DetalheEvento'
+        component={DetalheEvento}
       />
 
     </Navigator>

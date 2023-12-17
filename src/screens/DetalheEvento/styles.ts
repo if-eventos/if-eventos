@@ -24,8 +24,8 @@ button: {
     marginTop: 20,
     height: 30,
     width:120,
-    flexDirection: 'row',
-    borderRadius: 5, 
+    flexDirection: 'row', 
+    borderRadius: 5,  
     padding:5
   },
 })
