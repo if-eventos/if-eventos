@@ -16,9 +16,6 @@ export function Footer() {
             <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                 <Feather name="home" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity>
-                <Feather name="search" size={24} color="black" />
-            </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("DetalheEvento")}>
                 <Feather name="star" size={24} color="black" />
             </TouchableOpacity>

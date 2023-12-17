@@ -46,6 +46,16 @@ Image:{
   borderRadius: 5,
   resizeMode: 'cover',
 },
-
+participarButton:{
+  borderWidth: 1,
+  marginTop: 30,
+  borderRadius: 5,
+  padding: 20
+},
+participantesContainer:{
+  fontSize: 18,
+  color: 'black',
+  marginTop: 20
+}
 
 })
