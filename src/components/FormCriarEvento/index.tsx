@@ -1,19 +1,23 @@
 import { Alert, Keyboard, TouchableWithoutFeedback, View, TouchableOpacity, Text, TextInput, Image } from 'react-native';
-import { schemaZodEvento, IRegisterEvent } from "../../utils/ValidationSchemaZod";
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { ErrorMessage } from '../ErrorMessage';
-import { Controller, useForm } from 'react-hook-form';
-
-import { styles } from './styles';
-import api from '../../services/api';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
-
-import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from 'react';
 
+import { schemaZodEvento, IRegisterEvent } from "../../utils/ValidationSchemaZod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+
+import { ErrorMessage } from '../ErrorMessage';
+
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+import * as ImagePicker from 'expo-image-picker';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
+
 import { Picker } from '@react-native-picker/picker';
+
+import api from '../../services/api';
+
+import { AntDesign } from '@expo/vector-icons';
+import { styles } from './styles';
 
 
 
@@ -35,28 +39,44 @@ export function FormCriarEvento() {
     });
 
 
-    //handle image:
+    //Controla a image do evento:
     const [imagePath, setImagePath] = useState<string>();
 
-    //Controla a latitude e longitude do evento
+    //Controla as datas selecionadas do react-native-calendars
+    const [selected, setSelected] = useState('');
+
+    //Controla a latitude e longitude do evento:
     const [position, setPosition] = useState<Coords>({ latitude: 0, longitude: 0 });
 
-    //handle categoria
+    //Controla a categoria do evento:
     const [categoria, setCategoria] = useState<string>('ads');
+
+
+
 
     useEffect(() => {
         if (route.params) {
           const { latitude, longitude } = route.params as Coords; //vai tratar o route.params como um tipo específico
           setPosition({latitude, longitude});
         }
-      }, [route.params]);
+    }, [route.params]);
+
+
+
+
+    function setDateEvent(date:string) {
+        setValue('data_hora', date);
+        setSelected(date);
+    }
+
+
 
 
     async function handleSelectImage() {
         // tenho acesso a galeria de fotos e não a câmera
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        /* console.log(status); */
-        if(status !== 'granted'){// granted é quando o usuário deu permissão
+        
+        if(status !== 'granted'){
           alert('Eita, precisamos de acesso às suas fotos...');
           return;
         }
@@ -68,7 +88,7 @@ export function FormCriarEvento() {
           //quero apensas imagems e não vídeo tb
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
         });
-        /* console.log(result); */
+        
         if(!result.canceled) { 
           setImagePath(result.assets[0].uri);
           console.log(imagePath);
@@ -145,9 +165,9 @@ export function FormCriarEvento() {
                     <View>
 
                         {/* Botão para selecionar uma imagem */}
-                        <View style={styles.ProfilePhoto}>
+                        <View style={styles.eventImageContainer}>
                             <TouchableOpacity
-                                style={styles.profile}
+                                style={styles.eventImage}
                                 onPress={handleSelectImage}
                             >
                                 {
@@ -196,22 +216,7 @@ export function FormCriarEvento() {
                             )}
                         />
 
-                        {
-                            !!errors.data_hora && <ErrorMessage description={errors.data_hora.message} />
-                        }
-                        <Controller
-                            name='data_hora'
-                            control={control}
-                            render={({ field }) => (
-                                <TextInput
-                                    placeholder="Data e Hora*"
-                                    onBlur={field.onBlur}
-                                    onChangeText={field.onChange}
-                                    value={field.value}
-                                    style={styles.input}
-                                />
-                            )}
-                        />
+                        
 
 
                         {
@@ -233,8 +238,8 @@ export function FormCriarEvento() {
 
 
                         
-                        {/* DropDown para selecionar uma categoria */}
-                        <View>
+                        {/* Menu para selecionar uma categoria */}
+                        <View style={styles.categoriaContainer}>
                             <Text>Selicione uma categoria:</Text>
                             <Picker
                                 selectedValue={categoria}
@@ -247,6 +252,30 @@ export function FormCriarEvento() {
                             </Picker>
                         </View>
 
+
+
+                        {
+                            !!errors.data_hora && <ErrorMessage description={errors.data_hora.message} />
+                        }
+                        <Controller
+                            name='data_hora'
+                            control={control}
+                            render={({ field }) => (
+                                <Calendar
+                                    style={styles.calendar}
+                                    onDayPress={day => {
+                                        setDateEvent(day.dateString);
+                                    }}
+                                    markedDates={{
+                                        [selected]: {selected: true, marked: true, selectedColor: 'blue'}
+                                      }}
+                                />
+                            )}
+                        />
+
+
+
+
                         
                         {/* Views para lidar com a localização */}
                         <View style={styles.MapContainer}>
@@ -256,15 +285,15 @@ export function FormCriarEvento() {
                             >
                                 <Text style={styles.buttonText}>Mapa posicao</Text>
                             </TouchableOpacity>
-                        </View>
-                        <View style={styles.MapContainer}>
-                            {
-                                position.latitude !== 0 
-                                ?
-                                    <Text>{position.latitude + " " + position.longitude}</Text>
-                                :
-                                    <Text>Nenhuma localização selecionada</Text>
-                            }
+                            <View style={styles.MapContainer}>
+                                {
+                                    position.latitude !== 0 
+                                    ?
+                                        <Text>{position.latitude + " " + position.longitude}</Text>
+                                    :
+                                        <Text>Nenhuma localização selecionada</Text>
+                                }
+                            </View>
                         </View>
 
 

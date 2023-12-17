@@ -54,12 +54,13 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 40
     },
-    ProfilePhoto:{
+    eventImageContainer:{
         marginLeft: 12,
+        marginBottom: 20,
         alignItems: 'center',
         justifyContent: 'center'
     },
-    profile: {
+    eventImage: {
         width: 260,
         height: 150,
         borderWidth: 2,
@@ -69,7 +70,14 @@ export const styles = StyleSheet.create({
         overflow: "hidden",
         backgroundColor: '#9fb1ff'
     },
+    categoriaContainer: {
+        marginVertical: 20,
+    },
+    calendar: {
+        marginVertical: 20
+    },
     MapContainer: {
+        marginVertical: 20,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -81,5 +89,6 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         margin: 5,
-    }
+    },
+    
 })
