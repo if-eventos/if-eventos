@@ -68,7 +68,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         overflow: "hidden",
-        backgroundColor: '#9fb1ff'
+        backgroundColor: '#ebf0f5',
+        borderRadius: 7,
     },
     categoriaContainer: {
         marginVertical: 20,
@@ -89,6 +90,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         margin: 5,
+        borderRadius: 7
     },
     
 })
