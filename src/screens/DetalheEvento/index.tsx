@@ -68,6 +68,28 @@ export default function Main() {
     }
   };
 
+
+  const sairDoEvento = async () => {
+    try {
+      // Remove o usuario do evento desejado
+      await api.delete(`/api/v1/ouvinte/deletar/${evento.id}`);
+
+      // Atualiza a lista de participantes depois do cara clicar em sair do evento
+      const response = await api.get(`/api/v1/ouvinte/readAll/${evento.id}`);
+      const users = response.data['user'];
+
+      //Aqui ele vai verificar se o array é de fato um array :D
+      if (Array.isArray(users)) {
+        setParticipantes(users);
+        console.log('Participantes após sair do evento:', users);
+      } else {
+        console.error('error:', response.data);
+      }
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -89,18 +111,27 @@ export default function Main() {
           </View>
 
 
-          {/* botão que chama a lógica do participar evento */}
-          <TouchableOpacity
-            style={styles.participarButton}
-            onPress={participarDoEvento}>
-            <Text style={{ color: 'black' }}>Participar do Evento</Text>
-          </TouchableOpacity>
+          <View style={{flexDirection: 'row', margin: 5}}>
+             {/* botão que chama a lógica do participar evento */}
+            <TouchableOpacity
+              style={styles.participarButton}
+              onPress={participarDoEvento}>
+              <Text style={{ color: 'black' }}>Participar do Evento</Text>
+            </TouchableOpacity>
 
+            {/* botão que chama a lógica de sair do evento */}
+            <TouchableOpacity
+              style={styles.participarButton}
+              onPress={sairDoEvento}>
+              <Text style={{ color: 'black' }}>Sair do Evento</Text>
+            </TouchableOpacity>
 
+          </View>
+         
           {/* Mostrar a lista de participantes */}
-          <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 20 }}>Participantes:</Text>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, alignSelf: 'baseline', marginLeft: 40}}>Participantes:</Text>
           {participantes && participantes.map((participante, index) => (
-            <Text key={index} style={{alignSelf: 'baseline', marginLeft: 125}}>
+            <Text key={index} style={{alignSelf: 'baseline', marginLeft: 45}}>
               {/*@ts-ignore*/}
               {participante.name}
             </Text>

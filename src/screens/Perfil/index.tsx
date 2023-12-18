@@ -26,7 +26,7 @@ export default function Main() {
     const navigation = useNavigation();
 
 
-    //Aqui declaro a variavel deslogar com a função de deslogar
+    //Aqui declaro a variavel deslogar e passo para ela a função de deslogar
     const { deslogar} = useAuth();
     const handleLogout = () => {
 
@@ -38,8 +38,9 @@ export default function Main() {
         <View style={styles.container}>
             <ScrollView>
                 <Header pageName="Meu perfil" descricao="Personalize seu perfil." />
-
+                
                 <View style={styles.user}>
+
                     {/* Aqui chamo o Image e pego a url da imagem que ficará salva no banco e renderizo pro usuário*/}
                     <Image
                         source={{ uri: `${api.getUri()}${usuario.image}` }}

@@ -34,10 +34,7 @@ export default function EditPerfil() {
 
   //Função para atualizar as informações do usuário
   const handleUpdateProfile = async () => {
-    
     console.log(newName, newPhone, newEmail);
-
-
     //
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
@@ -108,7 +105,9 @@ return (
           <Text style={styles.editPerfilText}>Editar Perfil</Text>
         </View>
 
+        {/* Botão para alterar a foto do usuário*/}
         <TouchableOpacity onPress={handleSelectImage}>
+          {/*   */}
           {imagePath ? (
             <Image source={{ uri: imagePath }} style={styles.userImage} />
           ) : (
@@ -116,6 +115,8 @@ return (
           )}
         </TouchableOpacity>
 
+
+          {/* Inputs para receber os novos valores do editPerfil*/}
         <View style={{ justifyContent: 'center', alignSelf: 'center', marginTop: 30 }}>
           <TextInput
             style={styles.textInput}
@@ -137,10 +138,12 @@ return (
           />
         </View>
 
+          {/* Botão para chamar a função de salvar as atualizações*/}
         <TouchableOpacity onPress={handleUpdateProfile} style={styles.btnSalvar}>
           <Ionicons name="checkmark" size={20} color="white" />
           <Text style={{ color: 'white', textAlign: 'center', marginLeft: 5 }}>Salvar Alterações</Text>
         </TouchableOpacity>
+        
       </View>
     </ScrollView>
     <Footer />
