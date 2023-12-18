@@ -48,6 +48,8 @@ export default function Home() {
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [eventosADS, setEventosADS] = useState<Evento[]>([]);
   const [eventosCivil, setEventosCivil] = useState<Evento[]>([]);
+  const [eventosMatematica, setEventosMatematica] = useState<Evento[]>([]);
+  const [eventosControle, setEventosControle] = useState<Evento[]>([]);
   const [isFocused, setIsFocused] = useState(false);
 
   useFocusEffect(() => {
@@ -98,10 +100,44 @@ export default function Home() {
       }
     };
 
+    const loadEventosMatematica = async () => {
+      try {
+        const eventosData = await fetchEventos();
+        const eventosMatematicaArray: Evento[] = [];
+        eventosData.forEach((evento)=>{
+          if(evento.categoria == 'matematica'){
+            eventosMatematicaArray.push(evento);
+          }
+          setEventosMatematica(eventosMatematicaArray);
+        })
+        
+      } catch (error) {
+        console.error('Erro ao carregar informações', error);
+      }
+    };
+
+    const loadEventosControle = async () => {
+      try {
+        const eventosData = await fetchEventos();
+        const eventosControleArray: Evento[] = [];
+        eventosData.forEach((evento)=>{
+          if(evento.categoria == 'controle-automacao'){
+            eventosControleArray.push(evento);
+          }
+          setEventosControle(eventosControleArray);
+        })
+        
+      } catch (error) {
+        console.error('Erro ao carregar informações', error);
+      }
+    };
+
     if (isFocused) {
       loadEventosAll();
       loadEventosADS();
       loadEventosCivil();
+      loadEventosMatematica();
+      loadEventosControle();
     }
   }, [isFocused]);
   
