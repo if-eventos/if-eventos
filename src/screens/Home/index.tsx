@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import { styles } from './styles';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect} from '@react-navigation/native';
 import { Footer } from '../../components/Footer';
 import fetchEventos from '../../services/fetchEventos';
-import api from '../../services/api';
 import Evento from '../../components/Eventos';
 
 interface Evento {
@@ -18,7 +16,11 @@ interface Evento {
   categoria: string;
 }
 
+
+//função ListaEventos, e desestruturação do {eventos}, logo mais eventos:Evento[] será um array do tipo Evento 
+//Teremos um parametro evento que será do tipo EVENTOO
 const ListaEventos = ({ eventos }: { eventos: Evento[] }) => {
+  //Aqui teremos um return da lista de eventos, usando a componentização <Evento item...>
   return (
     <FlatList
       data={eventos}
@@ -32,8 +34,9 @@ const ListaEventos = ({ eventos }: { eventos: Evento[] }) => {
   );
 };
 
-
+//Função home
 export default function Home() {
+  //Aqui declaramos arrays para as categorias de eventos que iremos mostrar na página home
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [eventosADS, setEventosADS] = useState<Evento[]>([]);
   const [eventosCivil, setEventosCivil] = useState<Evento[]>([]);
@@ -41,12 +44,17 @@ export default function Home() {
   const [eventosControle, setEventosControle] = useState<Evento[]>([]);
   const [isFocused, setIsFocused] = useState(false);
 
+
+  //Quando a tela é focada ela renderiza a lógica e os eventos cadastrados
+
   useFocusEffect(() => {
     setIsFocused(true);
 
     return () => setIsFocused(false);
   });
 
+
+  //Hook para carregar info dos eventos assincronos.
   useEffect(() => {
     const loadEventosAll = async () => {
       try {
@@ -58,6 +66,9 @@ export default function Home() {
       }
     };
 
+    //Aqui a função Load recebe mais um array e em seguida temos um if para comprar se a categoria é igual a 'ads', caso seja
+    //esse novo array faz um push desse evento, por fim, o setEventosADS, nosso array principal, faz um set(eventosADSAr...) jogando assim
+    //os dados do array da função load para o array da função home e tornando possível utilizar as informações fora da função.
     const loadEventosADS = async () => {
       try {
         const eventosData = await fetchEventos();
@@ -78,7 +89,7 @@ export default function Home() {
         const eventosData = await fetchEventos();
         const eventosCivilArray: Evento[] = [];
         eventosData.forEach((evento)=>{
-          if(evento.categoria == 'engenharia-civil'){
+          if(evento.categoria === 'engenharia-civil'){
             eventosCivilArray.push(evento);
           }
           setEventosCivil(eventosCivilArray);
@@ -94,7 +105,7 @@ export default function Home() {
         const eventosData = await fetchEventos();
         const eventosMatematicaArray: Evento[] = [];
         eventosData.forEach((evento)=>{
-          if(evento.categoria == 'matematica'){
+          if(evento.categoria === 'matematica'){
             eventosMatematicaArray.push(evento);
           }
           setEventosMatematica(eventosMatematicaArray);
@@ -110,7 +121,7 @@ export default function Home() {
         const eventosData = await fetchEventos();
         const eventosControleArray: Evento[] = [];
         eventosData.forEach((evento)=>{
-          if(evento.categoria == 'controle-automacao'){
+          if(evento.categoria === 'controle-automacao'){
             eventosControleArray.push(evento);
           }
           setEventosControle(eventosControleArray);
@@ -121,6 +132,7 @@ export default function Home() {
       }
     };
 
+    //Quando nossa tela estiver em foco, carrega os eventos, toda vez que for montado ou alterado a função é chamada
     if (isFocused) {
       loadEventosAll();
       loadEventosADS();
@@ -144,6 +156,8 @@ export default function Home() {
         <View>
           <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, marginTop: 60, fontWeight: 'bold' }}>Destaques</Text>
         </View>
+
+        {/*Aqui usamos a função ListaEventos com o parametro eventos passando o array desejado */}
         <View style={styles.eventosEduc}>
           <ListaEventos eventos={eventos} />
         </View>
@@ -151,6 +165,8 @@ export default function Home() {
         <View>
           <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, fontWeight: 'bold' }}>Análise e Desenvolvimento de Sistemas</Text>
         </View>
+
+        {/*Aqui usamos a função ListaEventos com o parametro eventos passando o array desejado */}
         <View style={styles.eventosEduc}>
           <ListaEventos eventos={eventosADS} />
         </View>

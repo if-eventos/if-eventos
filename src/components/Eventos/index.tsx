@@ -25,6 +25,9 @@ export default function Evento ({item}:Props){
             navigation.navigate('DetalheEvento', { evento: item })}}>
     
           <View style={styles.renderEventos}>
+            {/* Image que espera um objeto que contenha informações da origem da imagem */}
+            {/* uri vai receber a string 'diretorio' da imagem e usar o api.getURI para retornar a url da api + 
+            o caminho da imagem */}
             <Image source={{ uri: `${api.getUri()}${item.image}` }} style={styles.Image} />
             <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', marginTop: 5 }}>{item.nome}</Text>
             <Text style={{ fontSize: 12, color: '#3a3a3a' }}>Data do evento: {item.data_hora}</Text>
