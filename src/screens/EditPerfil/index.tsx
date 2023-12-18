@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useAuth } from '../../hooks/useAuth';
+import { useNavigation } from '@react-navigation/native';
 import userInfo from '../../services/userInfo';
 import api from '../../services/api';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { styles } from './styles';
-import { Controller, useForm } from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
 
 
 
 export default function EditPerfil() {
+  //Vou pegar os dados do usuário que está logado através do userInfo()
   const { name, telefone, email, image } = userInfo();
 
   console.log('Dados do usuário:', { name, telefone, email, image });
 
+  //Aqui vou setar os arrays e usar o useState passando o name do usuário. Isso servirá para jogar os dados no InputText
   const [newName, setNewName] = useState(name);
   const [newPhone, setNewPhone] = useState(telefone);
   const [newEmail, setNewEmail] = useState(email);
   const [imagePath, setImagePath] = useState<string | null>(null);
   const navigation = useNavigation();
 
-
+  //Uso isso para atualizar os dados do usuário para os paramêtros que mandei no useState
   useEffect(() => {
     setNewName(name);
     setNewPhone(telefone);
@@ -32,11 +32,13 @@ export default function EditPerfil() {
   }, [name, telefone, email]);
 
 
-
+  //Função para atualizar as informações do usuário
   const handleUpdateProfile = async () => {
     
     console.log(newName, newPhone, newEmail);
 
+
+    //
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     }
@@ -55,9 +57,10 @@ export default function EditPerfil() {
         } as any);
       }
 
+      //uso uma rota para atualizar o usuário passando o DataForm no códido anterior e o config
       const response = await api.patch(`/api/v1/user/atualizarUser/`, dataForm, config);
       navigation.navigate('Home');
-
+      
     } catch (error) {
 
       console.error('Erro ao atualizar perfil', error);
@@ -65,18 +68,20 @@ export default function EditPerfil() {
 
 }
 
-
+  //console para verificar se os estados iniciais estão funcionando corretamente
   console.log('Estados iniciais:', { newName, newPhone, newEmail, imagePath });
 
 
   async function handleSelectImage() {
-    // tenho acesso a galeria de fotos e não a câmera
+    // obter acesso a GALERIAAA de fotos 
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    /* console.log(status); */
-    if (status !== 'granted') {// granted é quando o usuário deu permissão
+
+    // verificar se o usuário permite o acesso. Granted é quando o usuário deu permissão
+    if (status !== 'granted') {
       alert('Eita, precisamos de acesso às suas fotos...');
       return;
     }
+
     let result = await ImagePicker.launchImageLibraryAsync({
       // permite ao usuario editar a imagem (crop), antes de subir o app
       allowsEditing: true,

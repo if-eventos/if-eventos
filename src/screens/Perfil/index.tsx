@@ -3,11 +3,10 @@ import { Header } from "../../components/Header"
 import { Footer } from "../../components/Footer"
 import { styles } from "./styles"
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../hooks/useAuth";
 import userInfo from "../../services/userInfo"
 import api from '../../services/api';
-import { useState } from "react"
 import React from "react"
 
 interface User1 {
@@ -20,12 +19,14 @@ interface User1 {
 
 
 export default function Main() {
+    //Aqui tenho uma variável usuário que pega os dados do usuário que está logado
 
     const usuario = userInfo();
 
     const navigation = useNavigation();
 
 
+    //Aqui declaro a variavel deslogar com a função de deslogar
     const { deslogar} = useAuth();
     const handleLogout = () => {
 
@@ -39,6 +40,7 @@ export default function Main() {
                 <Header pageName="Meu perfil" descricao="Personalize seu perfil." />
 
                 <View style={styles.user}>
+                    {/* Aqui chamo o Image e pego a url da imagem que ficará salva no banco e renderizo pro usuário*/}
                     <Image
                         source={{ uri: `${api.getUri()}${usuario.image}` }}
                         style={{ width: 82, height: 80, borderRadius: 80, marginRight: 10, borderWidth: 1, borderColor: 'black' }}
@@ -50,7 +52,7 @@ export default function Main() {
 
                 </View>
 
-
+                {/* Botão para navegar há tela de EditPerfil*/}
                 <View>
                     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("EditPerfil")}>
                         <Ionicons 
@@ -63,6 +65,8 @@ export default function Main() {
                     </TouchableOpacity>
                 </View>
 
+
+                {/* Botão para fazer logout*/}
                 <TouchableOpacity style={styles.button} onPress={handleLogout}>
                     <Ionicons name="log-out" size={20} color="red" style={styles.icon} />
                     <Text style={{color:'red', marginLeft:5 }}>Logout</Text>
@@ -70,8 +74,6 @@ export default function Main() {
 
             </ScrollView>
             
-            
-
             <Footer />
         </View>
     )

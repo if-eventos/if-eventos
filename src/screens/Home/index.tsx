@@ -174,6 +174,21 @@ export default function Home() {
           <ListaEventos eventos={eventosCivil} />
         </View>
 
+
+        <View>
+          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, fontWeight: 'bold' }}>Matemática </Text>
+        </View>
+        <View style={styles.eventosEduc}>
+          <ListaEventos eventos={eventosMatematica} />
+        </View>
+
+        <View>
+          <Text style={{ textAlign: 'left', fontSize: 16, marginLeft: 40, fontWeight: 'bold' }}>Controle de automação </Text>
+        </View>
+        <View style={styles.eventosEduc}>
+          <ListaEventos eventos={eventosControle} />
+        </View>
+
         <View style={styles.eventosEduc}>
         </View>
         
