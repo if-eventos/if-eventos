@@ -50,7 +50,8 @@ participarButton:{
   borderWidth: 1,
   marginTop: 30,
   borderRadius: 5,
-  padding: 20
+  padding: 20,
+  marginLeft: 10
 },
 participantesContainer:{
   fontSize: 18,
