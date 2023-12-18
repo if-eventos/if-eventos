@@ -37,7 +37,7 @@ export function EventosInscritos() {
     return (
 
         <View style={styles.Container}>
-            <Header descricao="Eventos que você está participando:" pageName="Eventos participando" />
+            <Header descricao="Eventos que você está participando:" pageName="Eventos inscritos" />
 
             <SafeAreaView style={styles.ContainerEventos}>
 

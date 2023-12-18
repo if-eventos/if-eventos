@@ -240,7 +240,7 @@ export function FormCriarEvento() {
                         
                         {/* Menu para selecionar uma categoria */}
                         <View style={styles.categoriaContainer}>
-                            <Text>Selicione uma categoria:</Text>
+                            <Text>Selecione uma categoria:</Text>
                             <Picker
                                 selectedValue={categoria}
                                 onValueChange={(item) => setCategoria(item)}
@@ -283,7 +283,7 @@ export function FormCriarEvento() {
                                 style={styles.mapButton}
                                 onPress={() => navigation.navigate('SelectMapPosition', position )}
                             >
-                                <Text style={styles.buttonText}>Mapa posicao</Text>
+                                <Text style={styles.buttonText}>Mapa posiçao</Text>
                             </TouchableOpacity>
                             <View style={styles.MapContainer}>
                                 {
