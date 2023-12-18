@@ -56,7 +56,7 @@ export default function Main() {
       const response = await api.get(`/api/v1/ouvinte/readAll/${evento.id}`);
       const users = response.data['user'];
 
-      //Aqui ele vai verificar se o array é de fato um array :D
+      //Aqui ele vai verificar se o array é de fato um array/matriz :D
       if (Array.isArray(users)) {
         setParticipantes(users);
         console.log('Participantes após inscrição:', users);
@@ -100,7 +100,6 @@ export default function Main() {
           </View>
         </View>
 
-
         {/* Vai renderizar os eventos que o usuário clicou na página home*/}
         <View style={{alignItems: 'center'}}>
           <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black', marginTop: 5 }}>{evento.nome}</Text>
@@ -129,7 +128,12 @@ export default function Main() {
           </View>
          
           {/* Mostrar a lista de participantes */}
+          {/* Expressão condicional que verifica se a variável participantes é verdadeira antes de prosseguir para o mapeamento dos participantes. */}
           <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, alignSelf: 'baseline', marginLeft: 40}}>Participantes:</Text>
+
+          {/* Itera sobre a matriz de participantes usando o método map. Para cada participante, um componente <Text> é gerado. */}
+          {/* key(index) gera uma chave única para cada elemento */}
+
           {participantes && participantes.map((participante, index) => (
             <Text key={index} style={{alignSelf: 'baseline', marginLeft: 45}}>
               {/*@ts-ignore*/}

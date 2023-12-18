@@ -6,6 +6,7 @@ import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/nativ
 import { Footer } from '../../components/Footer';
 import fetchEventos from '../../services/fetchEventos';
 import api from '../../services/api';
+import Evento from '../../components/Eventos';
 
 interface Evento {
   key: string;
@@ -18,24 +19,12 @@ interface Evento {
 }
 
 const ListaEventos = ({ eventos }: { eventos: Evento[] }) => {
-  const navigation = useNavigation();
   return (
     <FlatList
       data={eventos}
       horizontal
       renderItem={({ item }) => (
-        
-        <TouchableOpacity onPress={() => {
-            //@ts-ignore
-            navigation.navigate('DetalheEvento', { evento: item })}}>
-
-          <View style={styles.renderEventos}>
-            <Image source={{ uri: `${api.getUri()}${item.image}` }} style={styles.Image} />
-            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', marginTop: 5 }}>{item.nome}</Text>
-            <Text style={{ fontSize: 12, color: '#3a3a3a' }}>Data do evento: {item.data_hora}</Text>
-           
-          </View>
-        </TouchableOpacity>
+        <Evento item={item} /> 
       )}
       keyExtractor={(item) => item.id.toString()}
       showsHorizontalScrollIndicator={false}
