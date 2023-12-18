@@ -8,6 +8,7 @@ import Home from '../screens/Home';
 import Perfil from '../screens/Perfil';
 import EditPerfil from '../screens/EditPerfil';
 import DetalheEvento from '../screens/DetalheEvento'
+import { EventosInscritos } from '../screens/EventosInscritos';
 
 
 const { Navigator, Screen } = createNativeStackNavigator();
@@ -41,6 +42,10 @@ export function RoutesPrivadas() {
       <Screen
         name='DetalheEvento'
         component={DetalheEvento}
+      />
+      <Screen
+        name='EventosInscritos'
+        component={EventosInscritos}
       />
 
     </Navigator>

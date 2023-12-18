@@ -3,6 +3,16 @@ type Coords = {
   longitude: number,
 }
 
+interface Evento {
+  key: string;
+  nome: string;
+  descricao: string;
+  id: number;
+  image: any;
+  data_hora: string;
+  categoria: string;
+}
+
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
@@ -13,7 +23,8 @@ export declare global {
       Perfil: undefined;
       EditPerfil: undefined;
       SelectMapPosition: Coords
-      DetalheEvento: undefined;
+      DetalheEvento: undefined | { evento: Evento };
+      EventosInscritos: undefined;
     }
   }
 }
