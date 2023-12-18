@@ -31,14 +31,21 @@ export default function EditPerfil() {
     setNewEmail(email);
   }, [name, telefone, email]);
 
+  //console para verificar se os estados iniciais estão funcionando corretamente
+  console.log('Estados iniciais:', { newName, newPhone, newEmail, imagePath });
 
   //Função para atualizar as informações do usuário
   const handleUpdateProfile = async () => {
     console.log(newName, newPhone, newEmail);
-    //
+
+    //usado para mandar a imagem/arquivo em multiparts/upload de imagem/arquivo
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     }
+
+
+    // pega os dados atuais que foram passados no form.
+    //formdata usada para envio de dados e principalmente de imagem
     try {
       const dataForm = new FormData();
 
@@ -54,7 +61,7 @@ export default function EditPerfil() {
         } as any);
       }
 
-      //uso uma rota para atualizar o usuário passando o DataForm no códido anterior e o config
+      //uso uma rota para atualizar o usuário passando o DataForm do códido anterior e o config
       const response = await api.patch(`/api/v1/user/atualizarUser/`, dataForm, config);
       navigation.navigate('Home');
       
@@ -64,10 +71,6 @@ export default function EditPerfil() {
     }
 
 }
-
-  //console para verificar se os estados iniciais estão funcionando corretamente
-  console.log('Estados iniciais:', { newName, newPhone, newEmail, imagePath });
-
 
   async function handleSelectImage() {
     // obter acesso a GALERIAAA de fotos 
