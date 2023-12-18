@@ -6,6 +6,7 @@ import api from "../../services/api";
 
 import { styles } from "./styles";
 import { Header } from "../../components/Header";
+import Evento from "../../components/Eventos";
 
 
 interface Evento {
@@ -48,17 +49,7 @@ export function EventosInscritos() {
                                 data={eventosInscritos}
                                 renderItem={({ item }) => (
 
-                                    <TouchableOpacity onPress={() => {
-                                        navigation.navigate('DetalheEvento', { evento: item })
-                                    }}>
-
-                                        <View style={styles.renderEventos}>
-                                            <Image source={{ uri: `${api.getUri()}${item.image}` }} style={styles.Image} />
-                                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black', marginTop: 5 }}>{item.nome}</Text>
-                                            <Text style={{ fontSize: 12, color: '#3a3a3a' }}>Data do evento: {item.data_hora}</Text>
-
-                                        </View>
-                                    </TouchableOpacity>
+                                    <Evento item={item} />
                                 )}
                                 keyExtractor={(item) => item.id.toString()}
                                 showsVerticalScrollIndicator={true}
